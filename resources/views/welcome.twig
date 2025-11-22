@@ -1,0 +1,60 @@
+{% extends 'layouts/app.twig' %}
+
+{% block title %}Welcome - Attendance Management System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+        <h1 class="display-4">Attendance Management System</h1>
+        <p class="lead">A comprehensive solution for managing event attendance with multiple registration methods</p>
+        
+        <div class="row mt-5">
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-check-circle fa-3x text-primary mb-3"></i>
+                        <h5>Manual Check-in</h5>
+                        <p class="text-muted">Traditional checkbox attendance tracking</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-qrcode fa-3x text-success mb-3"></i>
+                        <h5>QR Code Scanning</h5>
+                        <p class="text-muted">Quick check-in using QR codes</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-barcode fa-3x text-info mb-3"></i>
+                        <h5>Barcode Scanning</h5>
+                        <p class="text-muted">Efficient barcode-based check-in</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-user-check fa-3x text-warning mb-3"></i>
+                        <h5>Face Recognition</h5>
+                        <p class="text-muted">Advanced facial recognition check-in</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-5">
+            <a href="{{ path('dashboard') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
