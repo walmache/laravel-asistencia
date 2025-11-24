@@ -1,6 +1,5 @@
 FROM php:8.3-fpm
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -12,29 +11,26 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     supervisor
 
-# Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
+RUN useradd -G www-data,root -u 1337 -m wwwuser
+RUN mkdir -p /var/www
+RUN chown -R wwwuser:www-data /var/www
+
+USER wwwuser
 WORKDIR /var/www
 
-# Copy existing application directory contents
-COPY . /var/www
+RUN composer create-project laravel/laravel:11.* temp-laravel --no-interaction
+RUN cp -r temp-laravel/. . && rm -rf temp-laravel
 
-# Copy existing application directory permissions
-COPY --chown=www-data:www-data . /var/www
+COPY --chown=wwwuser:www-data . /var/www
 
-# Install Laravel dependencies
+RUN rm -f composer.lock
 RUN composer install
 
-# Expose port
 EXPOSE 9000
-
-# Start supervisord
-CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["php-fpm"]

@@ -1,10 +1,6 @@
 <?php
 
 return [
-    'face_recognition' => [
-        'url' => env('FACE_RECOGNITION_API_URL', 'http://localhost:8001'),
-        'timeout' => env('FACE_RECOGNITION_TIMEOUT', 10),
-    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -19,7 +15,11 @@ return [
     */
 
     'postmark' => [
-        'token' => env('POSTMARK_TOKEN'),
+        'key' => env('POSTMARK_API_KEY'),
+    ],
+
+    'resend' => [
+        'key' => env('RESEND_API_KEY'),
     ],
 
     'ses' => [

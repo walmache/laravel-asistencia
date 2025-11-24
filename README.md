@@ -1,133 +1,59 @@
-# Sistema de Gestión de Asistencias Multimodal
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-Sistema web completo para el registro y gestión de asistencias a eventos con soporte para cuatro métodos de registro: check manual, escaneo de QR, escaneo de código de barras y reconocimiento facial.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## 🚀 Despliegue con Docker
+## About Laravel
 
-### Prerrequisitos
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- Docker (versión 20.10 o superior)
-- Docker Compose (versión 2.0 o superior)
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-### Pasos para desplegar
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-1. **Clonar el repositorio** (si aplica) o asegurarse de tener los archivos en el directorio actual
+## Learning Laravel
 
-2. **Construir y levantar los servicios**
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
 
-```bash
-docker-compose up -d --build
-```
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-3. **Instalar dependencias de Laravel**
+## Laravel Sponsors
 
-```bash
-docker-compose exec app composer install
-```
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-4. **Generar clave de aplicación**
+### Premium Partners
 
-```bash
-docker-compose exec app php artisan key:generate
-```
+- **[Vehikl](https://vehikl.com)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Redberry](https://redberry.international/laravel-development)**
+- **[Active Logic](https://activelogic.com)**
 
-5. **Configurar permisos de almacenamiento**
+## Contributing
 
-```bash
-docker-compose exec app chmod -R 777 storage bootstrap/cache
-```
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-6. **Ejecutar migraciones de la base de datos**
+## Code of Conduct
 
-```bash
-docker-compose exec app php artisan migrate --seed
-```
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-7. **Acceder al sistema**
+## Security Vulnerabilities
 
-- Frontend: http://localhost:8080
-- Backend Laravel: http://localhost:8080
-- API Python: http://localhost:8000 (internamente en la red Docker)
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## 📊 Datos de Prueba
+## License
 
-### Usuarios de prueba
-
-| Email | Contraseña | Rol |
-|-------|------------|-----|
-| admin@example.com | password | admin |
-| coordinator@example.com | password | coordinator |
-| user@example.com | password | user |
-
-### Organizaciones de prueba
-
-1. **Tech Events S.A.**
-   - ID: 1
-   - Descripción: Empresa dedicada a la organización de eventos tecnológicos
-
-2. **Educación Superior Ltda.**
-   - ID: 2
-   - Descripción: Institución educativa para eventos académicos
-
-### Eventos de prueba
-
-1. **Conferencia de Desarrollo Web 2024**
-   - ID: 1
-   - Organización: Tech Events S.A.
-   - Fecha: 2024-12-15 09:00:00
-   - Estado: ongoing
-   - Umbral facial: 0.6
-   - Permite registro facial: Sí
-
-2. **Taller de Seguridad Informática**
-   - ID: 2
-   - Organización: Tech Events S.A.
-   - Fecha: 2024-12-20 14:00:00
-   - Estado: scheduled
-   - Umbral facial: 0.6
-   - Permite registro facial: Sí
-
-### Usuarios asignados a eventos
-
-- Usuario admin@example.com está asignado al evento ID 1
-- Usuario coordinator@example.com está asignado al evento ID 1
-- Usuario user@example.com está asignado al evento ID 1
-
-## 📋 Funcionalidades
-
-- Registro de asistencia por 4 métodos: manual, QR, código de barras y reconocimiento facial
-- Gestión de organizaciones y eventos
-- Administración de usuarios y roles
-- Reportes de asistencia
-- Exportación a CSV/PDF
-- Gestión de consentimiento para procesamiento facial
-
-## 🔧 Configuración adicional
-
-### Variables de entorno
-
-El sistema utiliza las siguientes variables de entorno (definidas en `.env`):
-
-```
-DB_HOST=db
-DB_PORT=3306
-DB_DATABASE=attendance_system
-DB_USERNAME=laravel
-DB_PASSWORD=password
-PYTHON_API_URL=http://python-api:8000
-```
-
-### Microservicio Python
-
-El microservicio de reconocimiento facial expone los siguientes endpoints:
-
-- `POST /extract-embedding`: Extrae embedding facial de una imagen
-- `POST /verify-face`: Verifica coincidencia facial en un evento
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Por favor, siga el flujo de trabajo estándar de Git y asegúrese de probar todos los cambios antes de enviar un pull request.
-
-## 📄 Licencia
-
-Este proyecto está licenciado bajo la Licencia MIT.
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
