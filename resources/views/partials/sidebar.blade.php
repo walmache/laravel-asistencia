@@ -48,20 +48,6 @@
                 </li>
                 @endif
                 @endauth
-                
-                <li class="nav-item">
-                    <a href="{{ route('landing') }}" class="nav-link">
-                        <i class="nav-icon fas fa-home"></i>
-                        <p>{{ __('common.home') }}</p>
-                    </a>
-                </li>
-                
-                <li class="nav-item">
-                    <a href="#testimonios" class="nav-link">
-                        <i class="nav-icon fas fa-quote-left"></i>
-                        <p>Testimonios</p>
-                    </a>
-                </li>
             </ul>
         </nav>
     </div>

@@ -1,13 +1,13 @@
 @extends('layouts.adminlte')
 
 @section('title', __('common.users') . ' - neuroTech')
-@section('page-title', __('common.users'))
+@section('page-title', '')
 
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
+        <div class="card border">
+            <div class="card-header bg-light border-bottom">
                 <h3 class="card-title">{{ __('common.users') }}</h3>
                 <div class="card-tools">
                     <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">
@@ -15,14 +15,14 @@
                     </a>
                 </div>
             </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+            <div class="card-body table-responsive">
+                <table class="table table-hover text-nowrap table-bordered table-sm datatable">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Rol</th>
-                            <th>Acciones</th>
+                            <th>{{ __('common.table_name') }}</th>
+                            <th>{{ __('common.table_email') }}</th>
+                            <th>{{ __('common.table_role') }}</th>
+                            <th>{{ __('common.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,27 +32,24 @@
                             <td>{{ $user->email }}</td>
                             <td><span class="badge bg-{{ $user->role == 'admin' ? 'danger' : ($user->role == 'coordinator' ? 'warning' : 'info') }}">{{ ucfirst($user->role) }}</span></td>
                             <td>
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="{{ __('common.edit_item') }}"><i class="fas fa-edit fa-xs"></i></a>
                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro?')"><i class="fas fa-trash"></i></button>
+                                    <button type="submit" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="{{ __('common.delete_item') }}" onclick="return confirm('¿Está seguro?')"><i class="fas fa-trash fa-xs"></i></button>
                                 </form>
                             </td>
                         </tr>
                         @empty
-                        <tr><td colspan="4" class="text-center">No hay usuarios disponibles</td></tr>
+                        <tr><td colspan="4" class="text-center">{{ __('common.no_users_available') }}</td></tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
-            @if($users->hasPages())
-            <div class="card-footer">
-                {{ $users->links() }}
-            </div>
-            @endif
         </div>
     </div>
 </div>
 @endsection
+
+
 
 

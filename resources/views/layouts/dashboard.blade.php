@@ -6,9 +6,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'neuroTech - Dashboard')</title>
     <link rel="icon" type="image/png" href="{{ asset('images/logoNeurotechNegro.png') }}">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="@yield('description', 'Panel de administración de neuroTech')">
+    <meta name="keywords" content="neuroTech, gestión de asistencias, administración">
+    <meta name="author" content="neuroTech">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="{{ url()->current() }}">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';">
+    
+    <!-- Stylesheets - Local -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/vendor/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <meta name="api-base-url" content="{{ url('/api') }}">
     @stack('styles')
 </head>
@@ -150,8 +162,9 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Scripts - Local -->
+    <script src="{{ asset('js/vendor/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/vendor/axios.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @stack('scripts')
 </body>

@@ -6,21 +6,21 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
+        <div class="card border">
+            <div class="card-header bg-light border-bottom">
                 <h3 class="card-title">Mis Eventos Asignados</h3>
             </div>
             <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap table-bordered table-sm">
                     <thead>
                         <tr>
-                            <th>Evento</th>
-                            <th>Organización</th>
-                            <th>Inicio</th>
-                            <th>Fin</th>
-                            <th>Estado</th>
-                            <th>Mi Asistencia</th>
-                            <th>Acciones</th>
+                            <th>{{ __('common.events') }}</th>
+                            <th>{{ __('common.table_organization') }}</th>
+                            <th>{{ __('common.table_start') }}</th>
+                            <th>{{ __('common.table_end') }}</th>
+                            <th>{{ __('common.table_status') }}</th>
+                            <th>{{ __('common.table_my_attendance') }}</th>
+                            <th>{{ __('common.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,8 +40,8 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('attendance.show', ['id' => $event->id]) }}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-eye"></i> Ver/Registrar
+                                <a href="{{ route('attendance.show', ['id' => $event->id]) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{ __('common.view_details') }}">
+                                    <i class="fas fa-eye"></i>
                                 </a>
                             </td>
                         </tr>
@@ -55,5 +55,7 @@
     </div>
 </div>
 @endsection
+
+
 
 

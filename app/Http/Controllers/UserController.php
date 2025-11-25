@@ -9,27 +9,42 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware(function ($request, $next) {
-            if (!Auth::user()?->hasRole(['admin', 'coordinator'])) abort(403);
-            return $next($request);
-        });
-    }
-
     public function index()
     {
+        if (!Auth::check()) {
+            return redirect()->route('landing');
+        }
+        
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) {
+            abort(403);
+        }
+        
         return view('users.index', ['users' => User::paginate(15)]);
     }
 
     public function create()
     {
+        if (!Auth::check()) {
+            return redirect()->route('landing');
+        }
+        
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) {
+            abort(403);
+        }
+        
         return view('users.create');
     }
 
     public function store(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect()->route('landing');
+        }
+        
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) {
+            abort(403);
+        }
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -43,11 +58,27 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        if (!Auth::check()) {
+            return redirect()->route('landing');
+        }
+        
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) {
+            abort(403);
+        }
+        
         return view('users.edit', ['user' => User::findOrFail($id)]);
     }
 
     public function update(Request $request, $id)
     {
+        if (!Auth::check()) {
+            return redirect()->route('landing');
+        }
+        
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) {
+            abort(403);
+        }
+        
         $user = User::findOrFail($id);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -65,6 +96,14 @@ class UserController extends Controller
 
     public function destroy($id)
     {
+        if (!Auth::check()) {
+            return redirect()->route('landing');
+        }
+        
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) {
+            abort(403);
+        }
+        
         User::findOrFail($id)->delete();
         return redirect()->route('users.index')->with('success', 'Usuario eliminado exitosamente.');
     }

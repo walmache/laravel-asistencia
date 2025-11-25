@@ -21,13 +21,18 @@ class AuthController extends Controller
         }
 
         $credentials = $request->only('email', 'password');
+        $remember = $request->boolean('remember', false);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
             $token = $user->createToken('auth_token', ['*'], now()->addDays(30))->plainTextToken;
             
             // Also establish web session for web routes
             $request->session()->regenerate();
+            
+            // Ensure session is saved and authenticated
+            $request->session()->put('authenticated', true);
+            $request->session()->save();
 
             return response()->json([
                 'user' => $user->makeHidden(['password', 'remember_token']),

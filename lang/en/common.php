@@ -3,6 +3,8 @@
 return [
     'welcome' => 'Welcome',
     'login' => 'Login',
+    'enter' => 'Login',
+    'click_to_enter' => 'Click to enter the system',
     'logout' => 'Logout',
     'dashboard' => 'Dashboard',
     'attendance' => 'Attendance',
@@ -31,6 +33,29 @@ return [
     'end_date' => 'End Date',
     'register_attendance' => 'Register Attendance',
     'welcome_message' => 'Welcome to the attendance management system',
+    'testimonials' => 'Testimonials',
+    'view_details' => 'View details',
+    'edit_item' => 'Edit',
+    'delete_item' => 'Delete',
+    'table_name' => 'Name',
+    'table_organization' => 'Organization',
+    'table_start' => 'Start',
+    'table_end' => 'End',
+    'table_status' => 'Status',
+    'table_attendees' => 'Attendees',
+    'table_attendance' => 'Attendance',
+    'table_email' => 'Email',
+    'table_role' => 'Role',
+    'table_description' => 'Description',
+    'table_registration_time' => 'Registration Time',
+    'table_method' => 'Method',
+    'table_my_attendance' => 'My Attendance',
+    'recent_events' => 'Recent Events',
+    'no_events_available' => 'No events available',
+    'no_users_available' => 'No users available',
+    'no_organizations_available' => 'No organizations available',
 ];
+
+
 
 

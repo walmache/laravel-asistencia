@@ -4,6 +4,9 @@ window.API_TOKEN = localStorage.getItem('api_token') || null;
 
 // Axios configuration
 if (typeof axios !== 'undefined') {
+    // Configure axios to send credentials (cookies) with requests
+    axios.defaults.withCredentials = true;
+    
     if (window.API_TOKEN) {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.API_TOKEN;
     }
@@ -24,70 +27,85 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, 5000);
 
-    // Login form handlers for all forms
-    const loginConfigs = [
-        { form: 'loginForm', error: 'loginError', email: 'loginEmail', password: 'loginPassword', isModal: true },
-        { form: 'loginFormNav', error: 'loginErrorNav', email: 'loginEmailNav', password: 'loginPasswordNav', isModal: false },
-        { form: 'loginFormLanding', error: 'loginErrorLanding', email: 'loginEmailLanding', password: 'loginPasswordLanding', isModal: false }
-    ];
-    
-    if (typeof $ !== 'undefined') {
-        loginConfigs.forEach(config => {
-            const loginForm = document.getElementById(config.form);
-            if (loginForm) {
-                $(loginForm).on('submit', async function(e) {
-                    e.preventDefault();
-                    const errorDiv = $('#' + config.error);
-                    errorDiv.addClass('d-none');
-                    
-                    try {
-                        const response = await axios.post(window.API_BASE_URL + '/login', {
-                            email: $('#' + config.email).val(),
-                            password: $('#' + config.password).val()
-                        });
-                        
-                        if (response.data.token) {
-                            localStorage.setItem('api_token', response.data.token);
-                            window.API_TOKEN = response.data.token;
-                            axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
-                            
-                            document.cookie = `laravel_session=${response.data.user?.id || ''}; path=/`;
-                            
-                            if (config.isModal) {
-                                $('#loginModal').modal('hide');
-                            } else {
-                                const dropdown = document.querySelector('[data-bs-toggle="dropdown"]');
-                                if (dropdown) {
-                                    const bsDropdown = bootstrap.Dropdown.getInstance(dropdown);
-                                    if (bsDropdown) bsDropdown.hide();
-                                }
-                            }
-                            
-                            window.location.href = '/dashboard';
-                        }
-                    } catch (error) {
-                        let errorMsg = 'Error al iniciar sesión';
-                        if (error.response?.data?.error) {
-                            if (typeof error.response.data.error === 'object') {
-                                const errors = Object.values(error.response.data.error).flat();
-                                errorMsg = errors.join(', ');
-                            } else {
-                                errorMsg = error.response.data.error;
-                            }
-                        } else if (error.response?.data?.message) {
-                            errorMsg = error.response.data.message;
-                        }
-                        errorDiv.text(errorMsg).removeClass('d-none');
+    // Login form handler for modal - simple approach
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const errorDiv = document.getElementById('loginError');
+            if (errorDiv) errorDiv.classList.add('d-none');
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('rememberMe')?.checked || false;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            
+            try {
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('password', password);
+                formData.append('_token', csrfToken);
+                if (remember) {
+                    formData.append('remember', '1');
+                }
+                
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'same-origin',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
                     }
                 });
+                
+                if (!response.ok && response.status !== 422) {
+                    throw new Error('Error en la petición');
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Close modal and redirect
+                    const modalElement = document.getElementById('loginModal');
+                    if (modalElement && typeof bootstrap !== 'undefined') {
+                        const modal = bootstrap.Modal.getInstance(modalElement);
+                        if (modal) modal.hide();
+                    }
+                    window.location.href = data.redirect || '/dashboard';
+                } else {
+                    // Show error
+                    if (errorDiv) {
+                        errorDiv.textContent = data.message || 'Error al iniciar sesión';
+                        errorDiv.classList.remove('d-none');
+                    }
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                if (errorDiv) {
+                    errorDiv.textContent = 'Error al iniciar sesión. Por favor, intente nuevamente.';
+                    errorDiv.classList.remove('d-none');
+                }
             }
         });
         
-        $('#loginModal').on('hidden.bs.modal', function() {
-            const loginForm = document.getElementById('loginForm');
-            if (loginForm) loginForm.reset();
-            $('#loginError').addClass('d-none');
-        });
+        // Reset form when modal is closed
+        const loginModal = document.getElementById('loginModal');
+        if (loginModal && typeof bootstrap !== 'undefined') {
+            loginModal.addEventListener('hidden.bs.modal', function() {
+                loginForm.reset();
+                const errorDiv = document.getElementById('loginError');
+                if (errorDiv) errorDiv.classList.add('d-none');
+            });
+        }
     }
+    
+    // Initialize tooltips for login buttons
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('.login-btn-link'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        }
+    });
 });
 

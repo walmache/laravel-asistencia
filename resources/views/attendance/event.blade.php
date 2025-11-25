@@ -6,8 +6,8 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
+        <div class="card border">
+            <div class="card-header bg-light border-bottom">
                 <h3 class="card-title">{{ $event->name ?? 'Evento' }}</h3>
                 <div class="card-tools">
                     <a href="{{ route('attendance.index') }}" class="btn btn-secondary btn-sm">
@@ -56,20 +56,20 @@
 
 <div class="row mt-4">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
+        <div class="card border">
+            <div class="card-header bg-light border-bottom">
                 <h3 class="card-title">Asistentes</h3>
             </div>
             <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover text-nowrap table-bordered table-sm">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Rol</th>
-                            <th>Estado</th>
-                            <th>Hora de Registro</th>
-                            <th>Método</th>
+                            <th>{{ __('common.table_name') }}</th>
+                            <th>{{ __('common.table_email') }}</th>
+                            <th>{{ __('common.table_role') }}</th>
+                            <th>{{ __('common.table_status') }}</th>
+                            <th>{{ __('common.table_registration_time') }}</th>
+                            <th>{{ __('common.table_method') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -190,5 +190,7 @@ async function registerFace() {
 }
 </script>
 @endpush
+
+
 
 

@@ -13,3 +13,5 @@ El sistema buscará automáticamente:
 Si el archivo no existe, se ocultará el ícono sin causar errores.
 
 
+
+

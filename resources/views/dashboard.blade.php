@@ -1,7 +1,7 @@
 @extends('layouts.adminlte')
 
 @section('title', __('common.dashboard') . ' - neuroTech')
-@section('page-title', __('common.dashboard'))
+@section('page-title', '')
 
 @section('content')
 @php
@@ -58,21 +58,21 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Eventos Recientes</h3>
+        <div class="card border">
+            <div class="card-header bg-light border-bottom">
+                <h3 class="card-title">{{ __('common.recent_events') }}</h3>
             </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap" id="eventsTable">
+            <div class="card-body table-responsive">
+                <table class="table table-hover text-nowrap table-bordered table-sm datatable">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Organización</th>
-                            <th>Inicio</th>
-                            <th>Fin</th>
-                            <th>Estado</th>
-                            <th>Asistentes</th>
-                            <th>Acciones</th>
+                            <th>{{ __('common.table_name') }}</th>
+                            <th>{{ __('common.table_organization') }}</th>
+                            <th>{{ __('common.table_start') }}</th>
+                            <th>{{ __('common.table_end') }}</th>
+                            <th>{{ __('common.table_status') }}</th>
+                            <th>{{ __('common.table_attendees') }}</th>
+                            <th>{{ __('common.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,14 +85,14 @@
                             <td><span class="badge bg-{{ $event->status == 'scheduled' ? 'secondary' : ($event->status == 'ongoing' ? 'success' : 'info') }}">{{ ucfirst($event->status) }}</span></td>
                             <td>{{ $event->users->count() ?? 0 }}</td>
                             <td>
-                                <a href="{{ route('attendance.show', ['id' => $event->id]) }}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></a>
+                                <a href="{{ route('attendance.show', ['id' => $event->id]) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{ __('common.view_details') }}"><i class="fas fa-eye fa-xs"></i></a>
                                 @if($user && $user->hasRole(['admin', 'coordinator']))
-                                <a href="{{ route('events.edit', ['event' => $event->id]) }}" class="btn btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                                <a href="{{ route('events.edit', ['event' => $event->id]) }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="{{ __('common.edit_item') }}"><i class="fas fa-edit fa-xs"></i></a>
                                 @endif
                             </td>
                         </tr>
                         @empty
-                        <tr><td colspan="7" class="text-center">No hay eventos disponibles</td></tr>
+                        <tr><td colspan="7" class="text-center">{{ __('common.no_events_available') }}</td></tr>
                         @endforelse
                     </tbody>
                 </table>

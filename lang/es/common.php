@@ -3,6 +3,8 @@
 return [
     'welcome' => 'Bienvenido',
     'login' => 'Iniciar Sesión',
+    'enter' => 'Ingresar',
+    'click_to_enter' => 'Hacer click para ingresar al sistema',
     'logout' => 'Cerrar Sesión',
     'dashboard' => 'Panel de Control',
     'attendance' => 'Asistencia',
@@ -31,6 +33,29 @@ return [
     'end_date' => 'Fecha de Fin',
     'register_attendance' => 'Registrar Asistencia',
     'welcome_message' => 'Bienvenido al sistema de gestión de asistencias',
+    'testimonials' => 'Testimonios',
+    'view_details' => 'Ver detalles',
+    'edit_item' => 'Editar',
+    'delete_item' => 'Eliminar',
+    'table_name' => 'Nombre',
+    'table_organization' => 'Organización',
+    'table_start' => 'Inicio',
+    'table_end' => 'Fin',
+    'table_status' => 'Estado',
+    'table_attendees' => 'Asistentes',
+    'table_attendance' => 'Asistencias',
+    'table_email' => 'Email',
+    'table_role' => 'Rol',
+    'table_description' => 'Descripción',
+    'table_registration_time' => 'Hora de Registro',
+    'table_method' => 'Método',
+    'table_my_attendance' => 'Mi Asistencia',
+    'recent_events' => 'Eventos Recientes',
+    'no_events_available' => 'No hay eventos disponibles',
+    'no_users_available' => 'No hay usuarios disponibles',
+    'no_organizations_available' => 'No hay organizaciones disponibles',
 ];
+
+
 
 

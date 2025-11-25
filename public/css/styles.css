@@ -23,176 +23,335 @@
     font-size: 0.9em;
 }
 
-/* Hero section background - modern meeting/executive style */
+/* Language dropdown - ensure arrow is visible */
+.navbar .dropdown-toggle::after {
+    display: inline-block;
+    margin-left: 0.5em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+}
+
+/* Hero section - use local image */
 .hero-section {
     min-height: 100vh;
-    background: linear-gradient(rgba(99, 102, 241, 0.75), rgba(139, 92, 246, 0.75)), url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+    background: linear-gradient(rgba(99, 102, 241, 0.75), rgba(139, 92, 246, 0.75)), url('../images/hero-background.jpg') center/cover no-repeat;
     display: flex;
     align-items: center;
     padding-top: 70px;
 }
 
-/* Typography - Font families */
-/* Encabezado / título (hero) */
-h1, .hero-title, .display-1, .display-2, .display-3, .display-4, .display-5, .display-6 {
-    font-family: Georgia, serif;
+/* Form inputs - Use Bootstrap classes, minimal custom CSS */
+.form-input-icon {
+    background-color: #f8f9fa;
+    border-right: none;
+    min-width: 35px;
+    border: 1px solid #dee2e6 !important;
 }
 
-/* Subtítulos / secciones intermedias */
-h2, h3, h4, h5, h6, .subtitle, .section-title {
-    font-family: "Times New Roman", serif;
+.form-control-with-icon {
+    border-left: none;
+    border: 1px solid #dee2e6 !important;
 }
 
-/* Texto principal / párrafos */
-body, p, .text-body, .lead {
-    font-family: Arial, sans-serif;
+.form-control-with-icon:focus {
+    border-left: none;
+    border-color: #86b7fe !important;
 }
 
-/* Botones / UI / formularios */
-button, .btn, input, select, textarea, label, .form-control, .form-label, .nav-link, .dropdown-item {
-    font-family: Tahoma, sans-serif;
+/* All form inputs and selects must have borders - force visible */
+.form-control,
+.form-select,
+textarea.form-control,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+    border: 1px solid #dee2e6 !important;
 }
 
-/* Sidebar menu items - same font as dropdown */
-.sidebar .nav-link p, .sidebar .nav-link {
-    font-weight: normal;
-    font-family: Tahoma, sans-serif;
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #86b7fe !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
 }
 
-/* Modern colors */
-:root {
-    --primary-color: #6366f1;
-    --primary-dark: #4f46e5;
-    --secondary-color: #8b5cf6;
-    --accent-color: #ec4899;
-    --success-color: #10b981;
-    --info-color: #3b82f6;
-    --warning-color: #f59e0b;
-    --danger-color: #ef4444;
+/* Backoffice font size - exclude sidebar */
+body.hold-transition {
+    font-size: 0.7rem;
 }
 
-/* Login modal modern design */
-.login-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 1.5rem;
-    border-radius: 0.5rem 0.5rem 0 0;
+body.hold-transition .main-sidebar,
+body.hold-transition .main-sidebar *,
+body.hold-transition .sidebar,
+body.hold-transition .sidebar *,
+body.hold-transition .nav-sidebar,
+body.hold-transition .nav-sidebar *,
+body.hold-transition .brand-link,
+body.hold-transition .brand-link * {
+    font-size: 1rem !important;
 }
 
-.login-tabs {
-    display: flex;
-    gap: 0;
-    margin-bottom: 0;
+body.hold-transition .card-title,
+body.hold-transition h1,
+body.hold-transition h2,
+body.hold-transition h3,
+body.hold-transition h4,
+body.hold-transition h5,
+body.hold-transition h6 {
+    font-size: 0.85rem;
 }
 
-.login-tab {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s;
-    border-radius: 0.5rem 0.5rem 0 0;
+/* Tables - SM size using Bootstrap classes only */
+.table-sm th,
+.table-sm td {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
 }
 
-.login-tab.active {
-    background: rgba(255, 255, 255, 0.2);
+/* Table header background - apply to all tables */
+.table thead th,
+.table thead td,
+table thead th,
+table thead td {
+    background-color: #f8f9fa !important;
     font-weight: 600;
+    color: #495057;
 }
 
-.login-tab:hover {
-    background: rgba(255, 255, 255, 0.15);
+.table-bordered thead th,
+.table-bordered thead td {
+    background-color: #f8f9fa !important;
+    border-bottom: 2px solid #dee2e6 !important;
 }
 
-.social-login-btn {
-    width: 100%;
-    padding: 0.75rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    transition: all 0.3s;
+/* Ensure DataTables headers also have background */
+.dataTables_wrapper .table thead th,
+.dataTables_wrapper table thead th {
+    background-color: #f8f9fa !important;
+}
+
+/* DataTables - SM size, Bootstrap styling */
+.dataTables_wrapper {
+    font-size: 0.875rem;
+}
+
+/* DataTables bottom row - info and pagination in same row */
+.dataTables_wrapper .row:last-child {
     display: flex;
     align-items: center;
-    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.dataTables_wrapper .row:last-child .col-6 {
+    display: flex;
+    align-items: center;
+}
+
+.dataTables_wrapper .row:last-child .col-6:last-child {
+    justify-content: flex-end;
+    padding-right: 0;
+}
+
+/* DataTables controls - SM size */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_length label,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_filter label,
+.dataTables_wrapper .dataTables_info {
+    font-size: 0.875rem;
+}
+
+.dataTables_wrapper .dataTables_length label,
+.dataTables_wrapper .dataTables_filter label {
+    margin-bottom: 0;
+    font-weight: 400;
+    display: inline-flex;
+    align-items: center;
     gap: 0.5rem;
 }
 
-.social-login-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+/* DataTables pagination - Smaller, consistent with table elements */
+.dataTables_wrapper .dataTables_paginate {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    margin-left: auto;
 }
 
-.btn-facebook {
-    background: #1877f2;
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    margin: 0 1px;
+    border: none;
+    background: transparent;
+    color: #6c757d;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button a,
+.dataTables_wrapper .dataTables_paginate .paginate_button span {
+    padding: 2px 8px;
+    margin: 0 1px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #e9ecef;
+    color: #495057;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+    padding: 2px 8px;
+    margin: 0 1px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    color: #adb5bd;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* DataTables info - SM size */
+.dataTables_wrapper .dataTables_info {
+    font-size: 0.875rem;
+}
+
+/* Action buttons - Use Bootstrap btn-sm */
+.table .btn-sm i {
+    font-size: 0.75rem;
+}
+
+/* DataTables controls - Use Bootstrap form-control-sm */
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+    font-size: 0.875rem;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    background-image: none;
+    appearance: auto;
+}
+
+/* Card body with table - add padding */
+.card-body.table-responsive {
+    padding: 1rem;
+}
+
+/* Login modal enhanced design */
+.login-modal-enhanced {
+    border-radius: 1rem;
+    max-width: 450px;
+    overflow: hidden;
+}
+
+.login-modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1.5rem;
     color: white;
 }
 
-.btn-twitter {
-    background: #1da1f2;
-    color: white;
-}
-
-.login-separator {
-    text-align: center;
-    margin: 1.5rem 0;
-    position: relative;
-}
-
-.login-separator::before,
-.login-separator::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 45%;
-    height: 1px;
-    background: #e5e7eb;
-}
-
-.login-separator::before {
-    left: 0;
-}
-
-.login-separator::after {
-    right: 0;
-}
-
-.modern-input {
-    border: 2px solid #e5e7eb;
-    border-radius: 0.5rem;
+.login-input-enhanced {
+    border: 1px solid #dee2e6;
+    border-left: none;
+    border-radius: 0 0.5rem 0.5rem 0;
     padding: 0.75rem 1rem;
-    transition: all 0.3s;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: #fff;
 }
 
-.modern-input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+.login-input-enhanced:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.1);
     outline: none;
 }
 
-.modern-btn-primary {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+.login-input-enhanced::placeholder {
+    color: #adb5bd;
+}
+
+.login-input-icon {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-right: none;
+    border-radius: 0.5rem 0 0 0.5rem;
+    color: #6366f1;
+    padding: 0.75rem 1rem;
+}
+
+.login-input-enhanced:focus + .input-group-text,
+.input-group:focus-within .login-input-icon {
+    border-color: #6366f1;
+    background-color: #fff;
+}
+
+.login-submit-btn-enhanced {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     border: none;
     border-radius: 0.5rem;
-    padding: 0.75rem 2rem;
-    color: white;
+    padding: 0.875rem 1.5rem;
     font-weight: 600;
-    transition: all 0.3s;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    color: white;
+    transition: all 0.3s ease;
 }
 
-.modern-btn-primary:hover {
+.login-submit-btn-enhanced:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #6b46c1 100%);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
     color: white;
 }
 
-/* Código, bloques técnicos o ejemplos */
-code, pre, .code-block, .testimonial-technical, .example-block {
-    font-family: "Courier New", monospace;
+.login-submit-btn-enhanced:active {
+    transform: translateY(0);
 }
 
-/* Elementos decorativos o citas destacadas */
-blockquote, .quote, .decorative-text, .cursive-text {
-    font-family: "Brush Script MT", cursive;
+.login-forgot-link {
+    color: #6366f1;
+    font-size: 0.875rem;
+    transition: color 0.3s ease;
 }
 
+.login-forgot-link:hover {
+    color: #4f46e5;
+}
+
+.login-signup-link {
+    color: #6366f1;
+    transition: color 0.3s ease;
+}
+
+.login-signup-link:hover {
+    color: #4f46e5;
+}
+
+.login-btn-link:hover {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    transform: translateY(-1px);
+}
+
+/* Performance optimizations */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.hero-section {
+    will-change: transform;
+}

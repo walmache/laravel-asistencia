@@ -1,21 +1,71 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- SEO Meta Tags -->
     <title>neuroTech - Sistema Inteligente de Gestión de Asistencias</title>
+    <meta name="description" content="Sistema inteligente de gestión de asistencias con reconocimiento facial, códigos QR y más. Simple, rápido y eficiente para eventos corporativos.">
+    <meta name="keywords" content="gestión de asistencias, reconocimiento facial, códigos QR, eventos corporativos, registro de asistencia">
+    <meta name="author" content="neuroTech">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url('/') }}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:title" content="neuroTech - Sistema Inteligente de Gestión de Asistencias">
+    <meta property="og:description" content="Sistema inteligente de gestión de asistencias con reconocimiento facial, códigos QR y más.">
+    <meta property="og:image" content="{{ asset('images/logoNeurotechNegro.png') }}">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url('/') }}">
+    <meta property="twitter:title" content="neuroTech - Sistema Inteligente de Gestión de Asistencias">
+    <meta property="twitter:description" content="Sistema inteligente de gestión de asistencias con reconocimiento facial, códigos QR y más.">
+    <meta property="twitter:image" content="{{ asset('images/logoNeurotechNegro.png') }}">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('images/logoNeurotechNegro.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logoNeurotechNegro.png') }}">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="{{ asset('css/bootstrap.min.css') }}" as="style">
+    <link rel="preload" href="{{ asset('css/styles.css') }}" as="style">
+    
+    <!-- Stylesheets - Local -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/vendor/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    @php
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'SoftwareApplication',
+            'name' => 'neuroTech',
+            'applicationCategory' => 'BusinessApplication',
+            'description' => 'Sistema inteligente de gestión de asistencias con reconocimiento facial, códigos QR y más.',
+            'url' => url('/'),
+            'offers' => [
+                '@type' => 'Offer',
+                'price' => '0',
+                'priceCurrency' => 'USD'
+            ]
+        ];
+    @endphp
+    {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+    </script>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm fixed-top py-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('landing') }}">
-                <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" class="logo-img logo-lg">
+                <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" class="logo-img logo-lg" width="60" height="60" loading="eager">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -29,95 +79,26 @@
                         <a class="nav-link fw-semibold text-white" href="#servicios">{{ __('common.services') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold text-white" href="#testimonios">Testimonios</a>
+                        <a class="nav-link fw-semibold text-white" href="#testimonios">{{ __('common.testimonials') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link fw-semibold text-white" href="#contacto">{{ __('common.contact') }}</a>
                     </li>
                     <li class="nav-item dropdown ms-2">
                         <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            @if(app()->getLocale() == 'es')
-                                <span class="flag-icon me-1">🇪🇸</span><span>Español</span>
-                            @else
-                                <span class="flag-icon me-1">🇬🇧</span><span>English</span>
-                            @endif
+                            {!! app()->getLocale() == 'es' ? '<span class="flag-icon me-1">🇪🇸</span><span>Español</span>' : '<span class="flag-icon me-1">🇬🇧</span><span>English</span>' !!}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
                             <li><a class="dropdown-item d-flex align-items-center" href="{{ route('lang.switch', ['locale' => 'es']) }}"><span class="flag-icon me-2">🇪🇸</span><span>Español</span></a></li>
                             <li><a class="dropdown-item d-flex align-items-center" href="{{ route('lang.switch', ['locale' => 'en']) }}"><span class="flag-icon me-2">🇬🇧</span><span>English</span></a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown ms-3">
-                        <a class="nav-link text-white d-flex align-items-center" href="#" data-bs-toggle="dropdown">
-                            <span>Already have an account?</span>
-                            <span class="ms-2 fw-semibold">Login</span>
-                            <i class="fas fa-chevron-down ms-1"></i>
+                    <li class="nav-item ms-3">
+                        <a class="nav-link text-white login-btn-link d-flex align-items-center px-3 py-2 rounded" href="#" data-bs-toggle="modal" data-bs-target="#loginModal" style="background-color: rgba(255, 255, 255, 0.15); transition: all 0.3s ease;">
+                            <i class="fas fa-user me-2"></i>
+                            <span class="me-2">{{ __('common.enter') }}</span>
+                            <i class="fas fa-chevron-down"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end p-0" style="min-width: 400px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1); border-radius: 1rem; overflow: hidden;">
-                            <div class="login-header">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="text-white-50">Already have an account?</span>
-                                    <button type="button" class="btn-close btn-close-white" onclick="document.querySelector('[data-bs-toggle=dropdown]').click()"></button>
-                                </div>
-                                <div class="login-tabs">
-                                    <button type="button" class="login-tab active" id="loginTabLanding">
-                                        Login <i class="fas fa-chevron-down ms-1"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <form id="loginFormLanding">
-                                <div class="p-4">
-                                    <div id="loginErrorLanding" class="alert alert-danger d-none"></div>
-                                    
-                                    <div class="mb-4">
-                                        <label class="form-label fw-semibold mb-3">Login via</label>
-                                        <div class="row g-2">
-                                            <div class="col-6">
-                                                <button type="button" class="social-login-btn btn-facebook">
-                                                    <i class="fab fa-facebook-f"></i> Facebook
-                                                </button>
-                                            </div>
-                                            <div class="col-6">
-                                                <button type="button" class="social-login-btn btn-twitter">
-                                                    <i class="fab fa-twitter"></i> Twitter
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="login-separator">
-                                        <span class="text-muted bg-white px-2">or</span>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label for="loginEmailLanding" class="form-label fw-semibold">Email address</label>
-                                        <input type="email" class="form-control modern-input" id="loginEmailLanding" name="email" required autofocus>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <label for="loginPasswordLanding" class="form-label fw-semibold mb-0">Password</label>
-                                            <a href="#" class="text-decoration-none" style="color: var(--primary-color);">Forget the password?</a>
-                                        </div>
-                                        <input type="password" class="form-control modern-input" id="loginPasswordLanding" name="password" required>
-                                    </div>
-                                    
-                                    <button type="submit" class="btn modern-btn-primary w-100 mb-3">
-                                        Sign in
-                                    </button>
-                                    
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="rememberMeLanding" name="remember">
-                                        <label class="form-check-label" for="rememberMeLanding">keep me logged-in</label>
-                                    </div>
-                                    
-                                    <div class="text-center mt-4">
-                                        <span class="text-muted">New here? </span>
-                                        <a href="#" class="text-decoration-none fw-semibold" style="color: var(--primary-color);">Join Us</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </li>
                 </ul>
             </div>
@@ -226,7 +207,7 @@
     <section id="testimonios" class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
         <div class="container py-5">
             <div class="text-center mb-5 text-white">
-                <h2 class="display-4 fw-bold mb-3">Testimonios</h2>
+                <h2 class="display-4 fw-bold mb-3">{{ __('common.testimonials') }}</h2>
                 <p class="lead">Lo que dicen nuestros clientes</p>
             </div>
             <div class="row g-4">
@@ -321,9 +302,12 @@
         </div>
     </footer>
 
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/landing.js') }}"></script>
+    <!-- Login Modal -->
+    @include('partials.login-modal')
+    
+    <!-- Defer non-critical JavaScript -->
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/landing.js') }}" defer></script>
 </body>
 </html>
-

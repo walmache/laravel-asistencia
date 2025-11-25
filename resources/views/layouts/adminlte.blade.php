@@ -3,16 +3,53 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'neuroTech - Admin')</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logoNeurotechNegro.png') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- Security Headers -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';">
+    
+    <!-- SEO Meta Tags -->
+    <title>@yield('title', 'neuroTech - Admin')</title>
+    <meta name="description" content="@yield('description', 'Panel de administración de neuroTech - Sistema de gestión de asistencias')">
+    <meta name="keywords" content="neuroTech, gestión de asistencias, administración, eventos">
+    <meta name="author" content="neuroTech">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="{{ url()->current() }}">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'neuroTech - Admin')">
+    <meta property="og:description" content="@yield('description', 'Panel de administración de neuroTech')">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logoNeurotechNegro.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logoNeurotechNegro.png') }}">
+    
+    <!-- App Meta -->
     <meta name="api-base-url" content="{{ url('/api') }}">
+    <meta name="app-locale" content="{{ app()->getLocale() }}">
+    
+    <!-- Stylesheets - Local -->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/vendor/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/vendor/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     @stack('styles')
+    <style>
+    /* Ensure Bootstrap classes work - override AdminLTE if needed */
+    .card.border {
+        border: 1px solid #dee2e6 !important;
+    }
+    .card-header.bg-light {
+        background-color: #f8f9fa !important;
+    }
+    .card-header.border-bottom {
+        border-bottom: 1px solid #dee2e6 !important;
+    }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -20,15 +57,20 @@
     @include('partials.sidebar')
     
     <div class="content-wrapper">
+        @php
+            $pageTitle = trim($__env->yieldContent('page-title'));
+        @endphp
+        @if(!empty($pageTitle))
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">@yield('page-title', 'Dashboard')</h1>
+                        <h1 class="m-0">{{ $pageTitle }}</h1>
                     </div>
                 </div>
             </div>
         </div>
+        @endif
         
         <section class="content">
             <div class="container-fluid">
@@ -53,11 +95,20 @@
 </div>
 @include('partials.login-modal')
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/js/adminlte.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- Scripts - Local -->
+<script src="{{ asset('js/vendor/jquery.min.js') }}"></script>
+<script src="{{ asset('js/vendor/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
+<script src="{{ asset('js/vendor/axios.min.js') }}"></script>
+<script src="{{ asset('js/vendor/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('js/vendor/dataTables.bootstrap5.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/datatables-config.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tooltipList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(el => new bootstrap.Tooltip(el));
+});
+</script>
 @stack('scripts')
 </body>
 </html>

@@ -23,7 +23,36 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
+            
+            // Check if it's an AJAX request (by header or wants JSON)
+            $isAjax = $request->ajax() || 
+                     $request->wantsJson() || 
+                     $request->expectsJson() ||
+                     $request->header('X-Requested-With') === 'XMLHttpRequest' ||
+                     $request->header('Accept') === 'application/json';
+            
+            if ($isAjax) {
+                return response()->json([
+                    'success' => true,
+                    'redirect' => route('dashboard')
+                ]);
+            }
+            
             return redirect()->intended(route('dashboard'));
+        }
+
+        // Return JSON error for AJAX requests
+        $isAjax = $request->ajax() || 
+                 $request->wantsJson() || 
+                 $request->expectsJson() ||
+                 $request->header('X-Requested-With') === 'XMLHttpRequest' ||
+                 $request->header('Accept') === 'application/json';
+        
+        if ($isAjax) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Las credenciales proporcionadas no coinciden con nuestros registros.'
+            ], 422);
         }
 
         return back()->withErrors([

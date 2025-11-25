@@ -1,13 +1,13 @@
 @extends('layouts.adminlte')
 
 @section('title', __('common.events') . ' - neuroTech')
-@section('page-title', __('common.events'))
+@section('page-title', '')
 
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
+        <div class="card border">
+            <div class="card-header bg-light border-bottom">
                 <h3 class="card-title">{{ __('common.events') }}</h3>
                 @if(auth()->user()?->hasRole(['admin', 'coordinator']))
                 <div class="card-tools">
@@ -17,16 +17,16 @@
                 </div>
                 @endif
             </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap" id="eventsTable">
+            <div class="card-body table-responsive">
+                <table class="table table-hover text-nowrap table-bordered table-sm datatable">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Organización</th>
-                            <th>Inicio</th>
-                            <th>Fin</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
+                            <th>{{ __('common.table_name') }}</th>
+                            <th>{{ __('common.table_organization') }}</th>
+                            <th>{{ __('common.table_start') }}</th>
+                            <th>{{ __('common.table_end') }}</th>
+                            <th>{{ __('common.table_status') }}</th>
+                            <th>{{ __('common.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,57 +38,28 @@
                             <td>{{ $event->end_at->format('d/m/Y H:i') }}</td>
                             <td><span class="badge bg-{{ $event->status == 'scheduled' ? 'secondary' : ($event->status == 'ongoing' ? 'success' : 'info') }}">{{ ucfirst($event->status) }}</span></td>
                             <td>
-                                <a href="{{ route('events.show', $event->id) }}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
+                                <a href="{{ route('events.show', $event->id) }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="{{ __('common.view_details') }}"><i class="fas fa-eye fa-xs"></i></a>
                                 @if(auth()->user()?->hasRole(['admin', 'coordinator']))
-                                <a href="{{ route('events.edit', $event->id) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ route('events.edit', $event->id) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="{{ __('common.edit_item') }}"><i class="fas fa-edit fa-xs"></i></a>
                                 <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro?')"><i class="fas fa-trash"></i></button>
+                                    <button type="submit" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="{{ __('common.delete_item') }}" onclick="return confirm('¿Está seguro?')"><i class="fas fa-trash fa-xs"></i></button>
                                 </form>
                                 @endif
                             </td>
                         </tr>
                         @empty
-                        <tr><td colspan="6" class="text-center">No hay eventos disponibles</td></tr>
+                        <tr><td colspan="6" class="text-center">{{ __('common.no_events_available') }}</td></tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
-            @if($events->hasPages())
-            <div class="card-footer">
-                {{ $events->links() }}
-            </div>
-            @endif
         </div>
     </div>
 </div>
 @endsection
 
-@push('scripts')
-<script>
-async function loadEvents() {
-    if (!window.API_TOKEN) return;
-    try {
-        const {data} = await axios.get(window.API_BASE_URL + '/events');
-        if (data && data.length > 0) {
-            const tbody = document.querySelector('#eventsTable tbody');
-            tbody.innerHTML = data.map(event => `
-                <tr>
-                    <td>${event.name}</td>
-                    <td>${event.organization?.name || 'N/A'}</td>
-                    <td>${new Date(event.start_at).toLocaleDateString('es-ES')}</td>
-                    <td>${new Date(event.end_at).toLocaleDateString('es-ES')}</td>
-                    <td><span class="badge bg-${event.status === 'scheduled' ? 'secondary' : event.status === 'ongoing' ? 'success' : 'info'}">${event.status}</span></td>
-                    <td>
-                        <a href="/events/${event.id}" class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
-                    </td>
-                </tr>
-            `).join('');
-        }
-    } catch(e) { console.error('Error loading events:', e); }
-}
-if (window.API_TOKEN) loadEvents();
-</script>
-@endpush
+
+
 
 
