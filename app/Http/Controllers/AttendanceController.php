@@ -3,17 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\User;
 use App\Models\Attendance;
 use App\Services\FaceRecognitionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use BaconQrCode\Renderer\Image\SvgImageBackEnd;
-use BaconQrCode\Renderer\ImageRenderer;
-use BaconQrCode\Renderer\RendererStyle\RendererStyle;
-use BaconQrCode\Writer;
-use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class AttendanceController extends Controller
 {
@@ -27,57 +21,50 @@ class AttendanceController extends Controller
     public function index()
     {
         $user = Auth::user();
+        if (!$user) return redirect()->route('login');
         
-        if ($user->hasRole('admin')) {
-            $events = Event::with(['organization', 'attendances'])->get();
-        } elseif ($user->hasRole('coordinator')) {
-            $events = $user->events()->with(['organization', 'attendances'])->get();
-        } else {
-            $events = collect(); // Regular users don't see all events
-        }
+        $events = match(true) {
+            $user->hasRole('admin') => Event::with(['organization', 'attendances'])->get(),
+            $user->hasRole('coordinator') => $user->events()->with(['organization', 'attendances'])->get(),
+            $user->hasRole('user') => $user->events()->with(['organization', 'attendances'])->get(),
+            default => collect()
+        };
 
-        return view('attendance.index', compact('events'));
+        return $user->hasRole('user') 
+            ? view('attendance.user-events', compact('events'))
+            : view('attendance.index', compact('events'));
     }
 
     public function showEvent($id)
     {
-        $event = Event::with(['organization', 'users', 'attendances'])->findOrFail($id);
-        $users = $event->users;
-        $attendances = $event->attendances;
+        $user = Auth::user();
+        if (!$user) return redirect()->route('login');
         
-        return view('attendance.event', compact('event', 'users', 'attendances'));
+        $event = Event::with(['organization', 'users', 'attendances'])->findOrFail($id);
+        if ($user->hasRole('user') && !$event->users->contains($user->id)) abort(403);
+        
+        return view('attendance.event', [
+            'event' => $event,
+            'users' => $event->users,
+            'attendances' => $event->attendances
+        ]);
     }
 
     public function registerManual(Request $request, $eventId)
     {
         $user = Auth::user();
-        $event = Event::findOrFail($eventId);
+        if (!$user) return response()->json(['error' => 'Unauthorized'], 401);
         
-        // Check if user has permission to register attendance
+        $event = Event::findOrFail($eventId);
         if (!$user->hasRole(['admin', 'coordinator']) && $user->id != $request->user_id) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
         
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'status' => 'sometimes|in:present,absent,justified',
-        ]);
+        $validated = $request->validate(['user_id' => 'required|exists:users,id', 'status' => 'sometimes|in:present,absent,justified']);
         
         $attendance = Attendance::updateOrCreate(
-            [
-                'event_id' => $eventId,
-                'user_id' => $validated['user_id'],
-            ],
-            [
-                'check_in_at' => now(),
-                'method' => 'manual',
-                'status' => $validated['status'] ?? 'present',
-                'metadata' => [
-                    'device' => $request->userAgent(),
-                    'ip' => $request->ip(),
-                    'registered_by' => $user->id,
-                ],
-            ]
+            ['event_id' => $eventId, 'user_id' => $validated['user_id']],
+            ['check_in_at' => now(), 'method' => 'manual', 'status' => $validated['status'] ?? 'present', 'metadata' => ['device' => $request->userAgent(), 'ip' => $request->ip(), 'registered_by' => $user->id]]
         );
         
         return response()->json(['success' => true, 'attendance' => $attendance]);
@@ -86,34 +73,14 @@ class AttendanceController extends Controller
     public function registerQR(Request $request, $eventId)
     {
         $user = Auth::user();
-        $event = Event::findOrFail($eventId);
+        if (!$user) return response()->json(['error' => 'Unauthorized'], 401);
         
-        // Verify that the QR token is valid (in a real app, you'd validate a JWT token)
-        $validated = $request->validate([
-            'qr_token' => 'required|string',
-        ]);
-        
-        // In a real implementation, you would validate the JWT token here
-        // For demo purposes, we'll assume the token is valid and contains user_id
-        
-        // Extract user ID from the token (simplified for this example)
-        $userId = $request->user_id; // This should come from decoded JWT in real app
+        $validated = $request->validate(['qr_token' => 'required|string']);
+        $userId = $request->user_id;
         
         $attendance = Attendance::updateOrCreate(
-            [
-                'event_id' => $eventId,
-                'user_id' => $userId,
-            ],
-            [
-                'check_in_at' => now(),
-                'method' => 'qr',
-                'status' => 'present',
-                'metadata' => [
-                    'device' => $request->userAgent(),
-                    'ip' => $request->ip(),
-                    'qr_token' => $validated['qr_token'],
-                ],
-            ]
+            ['event_id' => $eventId, 'user_id' => $userId],
+            ['check_in_at' => now(), 'method' => 'qr', 'status' => 'present', 'metadata' => ['device' => $request->userAgent(), 'ip' => $request->ip(), 'qr_token' => $validated['qr_token']]]
         );
         
         return response()->json(['success' => true, 'attendance' => $attendance]);
@@ -122,31 +89,14 @@ class AttendanceController extends Controller
     public function registerBarcode(Request $request, $eventId)
     {
         $user = Auth::user();
-        $event = Event::findOrFail($eventId);
+        if (!$user) return response()->json(['error' => 'Unauthorized'], 401);
         
-        $validated = $request->validate([
-            'barcode_data' => 'required|string',
-        ]);
-        
-        // In a real implementation, you would decode the barcode to get user ID
-        // For demo purposes, we'll assume the barcode contains user_id
-        $userId = $request->user_id; // This should come from decoded barcode in real app
+        $validated = $request->validate(['barcode_data' => 'required|string']);
+        $userId = $request->user_id;
         
         $attendance = Attendance::updateOrCreate(
-            [
-                'event_id' => $eventId,
-                'user_id' => $userId,
-            ],
-            [
-                'check_in_at' => now(),
-                'method' => 'barcode',
-                'status' => 'present',
-                'metadata' => [
-                    'device' => $request->userAgent(),
-                    'ip' => $request->ip(),
-                    'barcode_data' => $validated['barcode_data'],
-                ],
-            ]
+            ['event_id' => $eventId, 'user_id' => $userId],
+            ['check_in_at' => now(), 'method' => 'barcode', 'status' => 'present', 'metadata' => ['device' => $request->userAgent(), 'ip' => $request->ip(), 'barcode_data' => $validated['barcode_data']]]
         );
         
         return response()->json(['success' => true, 'attendance' => $attendance]);
@@ -155,86 +105,43 @@ class AttendanceController extends Controller
     public function registerFace(Request $request, $eventId)
     {
         $user = Auth::user();
-        $event = Event::findOrFail($eventId);
+        if (!$user) return response()->json(['success' => false, 'error' => 'Unauthorized'], 401);
         
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+        $request->validate(['image' => 'required|image|mimes:jpeg,png,jpg|max:2048']);
         
-        // Store the captured image temporarily
-        $image = $request->file('image');
-        $imagePath = $image->store('temp', 'local');
-        
-        // Call the Python face recognition service
+        $imagePath = $request->file('image')->store('temp', 'local');
         $result = $this->faceRecognitionService->verifyFace($eventId, storage_path('app/' . $imagePath));
-        
-        // Clean up the temporary image
         Storage::delete($imagePath);
         
         if (isset($result['error'])) {
-            return response()->json([
-                'success' => false,
-                'error' => $result['message'] ?? 'Face recognition service unavailable'
-            ], 500);
+            return response()->json(['success' => false, 'error' => $result['message'] ?? 'Face recognition service unavailable'], 500);
         }
         
         if (!$result['match']) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No face match found'
-            ], 400);
+            return response()->json(['success' => false, 'message' => 'No face match found'], 400);
         }
         
-        // Register attendance for the matched user
         $attendance = Attendance::updateOrCreate(
-            [
-                'event_id' => $eventId,
-                'user_id' => $result['user_id'],
-            ],
-            [
-                'check_in_at' => now(),
-                'method' => 'face_recognition',
-                'status' => 'present',
-                'metadata' => [
-                    'device' => $request->userAgent(),
-                    'ip' => $request->ip(),
-                    'confidence' => $result['confidence'],
-                    'threshold_used' => $result['threshold_used'],
-                ],
-            ]
+            ['event_id' => $eventId, 'user_id' => $result['user_id']],
+            ['check_in_at' => now(), 'method' => 'face_recognition', 'status' => 'present', 'metadata' => ['device' => $request->userAgent(), 'ip' => $request->ip(), 'confidence' => $result['confidence'], 'threshold_used' => $result['threshold_used']]]
         );
         
-        return response()->json([
-            'success' => true,
-            'attendance' => $attendance,
-            'user_id' => $result['user_id'],
-            'confidence' => $result['confidence']
-        ]);
+        return response()->json(['success' => true, 'attendance' => $attendance, 'user_id' => $result['user_id'], 'confidence' => $result['confidence']]);
     }
 
     public function generateQRCode($eventId)
     {
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) abort(403);
+        
         $event = Event::findOrFail($eventId);
+        $qrData = json_encode(['event_id' => $event->id, 'timestamp' => now()->toISOString(), 'valid_for' => 3600]);
         
-        // Generate a JWT token for this event (simplified for this example)
-        // In a real app, you would generate a proper JWT
-        $qrData = json_encode([
-            'event_id' => $event->id,
-            'timestamp' => now()->toISOString(),
-            'valid_for' => 3600 // Valid for 1 hour
-        ]);
-        
-        $renderer = new ImageRenderer(
-            new RendererStyle(200),
-            new SvgImageBackEnd()
-        );
-        $writer = new Writer($renderer);
+        $renderer = new \BaconQrCode\Renderer\Image\SvgImageBackEnd();
+        $writer = new \BaconQrCode\Writer(new \BaconQrCode\Renderer\ImageRenderer(new \BaconQrCode\Renderer\RendererStyle\RendererStyle(200), $renderer));
         $qrCode = $writer->writeString($qrData);
         
-        // Save QR code to storage
         $fileName = 'qrcodes/event_' . $event->id . '_' . time() . '.svg';
         Storage::put($fileName, $qrCode);
-        
         $event->update(['qr_code_path' => $fileName]);
         
         return response($qrCode)->header('Content-Type', 'image/svg+xml');
@@ -242,18 +149,16 @@ class AttendanceController extends Controller
 
     public function generateBarcode($eventId)
     {
-        $event = Event::findOrFail($eventId);
-        $generator = new BarcodeGeneratorPNG();
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) abort(403);
         
-        // Generate a unique barcode for this event
+        $event = Event::findOrFail($eventId);
         $barcodeData = 'EVT' . str_pad($event->id, 8, '0', STR_PAD_LEFT);
         
+        $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
         $barcode = $generator->getBarcode($barcodeData, $generator::TYPE_CODE_128);
         
-        // Save barcode to storage
         $fileName = 'barcodes/event_' . $event->id . '_' . time() . '.png';
         Storage::put($fileName, $barcode);
-        
         $event->update(['barcode_code' => $barcodeData]);
         
         return response($barcode)->header('Content-Type', 'image/png');
@@ -262,41 +167,20 @@ class AttendanceController extends Controller
     public function uploadFaceImage(Request $request)
     {
         $user = Auth::user();
+        if (!$user) return response()->json(['error' => 'Unauthorized'], 401);
         
-        $request->validate([
-            'face_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'consent' => 'required|boolean',
-        ]);
+        $request->validate(['face_image' => 'required|image|mimes:jpeg,png,jpg|max:2048', 'consent' => 'required|boolean']);
+        if (!$request->consent) return response()->json(['error' => 'Consent required'], 400);
         
-        if (!$request->consent) {
-            return response()->json(['error' => 'Consent required for face processing'], 400);
-        }
-        
-        // Update user's consent
         $user->update(['consent_face_processing' => true]);
-        
-        // Store the face image
-        $image = $request->file('face_image');
-        $imagePath = $image->store('face_images', 'public');
-        
-        // Extract face embedding using Python service
+        $imagePath = $request->file('face_image')->store('face_images', 'public');
         $result = $this->faceRecognitionService->extractEmbedding(storage_path('app/public/' . $imagePath));
         
         if (isset($result['error'])) {
-            return response()->json([
-                'error' => $result['message'] ?? 'Face embedding extraction failed'
-            ], 500);
+            return response()->json(['error' => $result['message'] ?? 'Face embedding extraction failed'], 500);
         }
         
-        // Update user with face embedding and image path
-        $user->update([
-            'face_embedding' => $result['embedding'],
-            'face_image_path' => $imagePath,
-        ]);
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Face image uploaded and embedding extracted successfully'
-        ]);
+        $user->update(['face_embedding' => $result['embedding'], 'face_image_path' => $imagePath]);
+        return response()->json(['success' => true, 'message' => 'Face image uploaded and embedding extracted successfully']);
     }
 }

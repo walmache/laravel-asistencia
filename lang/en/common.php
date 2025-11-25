@@ -1,0 +1,36 @@
+<?php
+
+return [
+    'welcome' => 'Welcome',
+    'login' => 'Login',
+    'logout' => 'Logout',
+    'dashboard' => 'Dashboard',
+    'attendance' => 'Attendance',
+    'my_events' => 'My Events',
+    'events' => 'Events',
+    'users' => 'Users',
+    'organizations' => 'Organizations',
+    'services' => 'Services',
+    'contact' => 'Contact Us',
+    'home' => 'Home',
+    'profile' => 'Profile',
+    'name' => 'Name',
+    'email' => 'Email',
+    'password' => 'Password',
+    'remember_me' => 'Remember Me',
+    'create' => 'Create',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'save' => 'Save',
+    'cancel' => 'Cancel',
+    'view' => 'View',
+    'actions' => 'Actions',
+    'status' => 'Status',
+    'description' => 'Description',
+    'start_date' => 'Start Date',
+    'end_date' => 'End Date',
+    'register_attendance' => 'Register Attendance',
+    'welcome_message' => 'Welcome to the attendance management system',
+];
+
+

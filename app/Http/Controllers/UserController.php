@@ -5,13 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (!Auth::user()?->hasRole(['admin', 'coordinator'])) abort(403);
+            return $next($request);
+        });
+    }
+
     public function index()
     {
-        $users = User::paginate(15);
-        return view('users.index', compact('users'));
+        return view('users.index', ['users' => User::paginate(15)]);
     }
 
     public function create()
@@ -28,23 +37,18 @@ class UserController extends Controller
             'role' => 'required|in:admin,coordinator,user',
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
-
-        User::create($validated);
-
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        User::create(array_merge($validated, ['password' => Hash::make($validated['password'])]));
+        return redirect()->route('users.index')->with('success', 'Usuario creado exitosamente.');
     }
 
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        return view('users.edit', compact('user'));
+        return view('users.edit', ['user' => User::findOrFail($id)]);
     }
 
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
@@ -52,22 +56,16 @@ class UserController extends Controller
             'role' => 'required|in:admin,coordinator,user',
         ]);
 
-        if ($request->filled('password')) {
-            $validated['password'] = Hash::make($validated['password']);
-        } else {
-            unset($validated['password']);
-        }
+        if ($request->filled('password')) $validated['password'] = Hash::make($validated['password']);
+        else unset($validated['password']);
 
         $user->update($validated);
-
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('users.index')->with('success', 'Usuario actualizado exitosamente.');
     }
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        User::findOrFail($id)->delete();
+        return redirect()->route('users.index')->with('success', 'Usuario eliminado exitosamente.');
     }
 }

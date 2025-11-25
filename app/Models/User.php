@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +22,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'face_embedding',
+        'face_image_path',
+        'consent_face_processing',
     ];
 
     /**
@@ -43,6 +48,27 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'face_embedding' => 'array',
+            'consent_face_processing' => 'boolean',
         ];
+    }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'event_user');
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function hasRole($roles)
+    {
+        if (is_string($roles)) {
+            $roles = [$roles];
+        }
+        
+        return in_array($this->role, $roles);
     }
 }

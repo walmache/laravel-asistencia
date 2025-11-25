@@ -1,0 +1,36 @@
+<?php
+
+return [
+    'welcome' => 'Bienvenido',
+    'login' => 'Iniciar Sesión',
+    'logout' => 'Cerrar Sesión',
+    'dashboard' => 'Panel de Control',
+    'attendance' => 'Asistencia',
+    'my_events' => 'Mis Eventos',
+    'events' => 'Eventos',
+    'users' => 'Usuarios',
+    'organizations' => 'Organizaciones',
+    'services' => 'Servicios',
+    'contact' => 'Contáctanos',
+    'home' => 'Inicio',
+    'profile' => 'Perfil',
+    'name' => 'Nombre',
+    'email' => 'Correo Electrónico',
+    'password' => 'Contraseña',
+    'remember_me' => 'Recordarme',
+    'create' => 'Crear',
+    'edit' => 'Editar',
+    'delete' => 'Eliminar',
+    'save' => 'Guardar',
+    'cancel' => 'Cancelar',
+    'view' => 'Ver',
+    'actions' => 'Acciones',
+    'status' => 'Estado',
+    'description' => 'Descripción',
+    'start_date' => 'Fecha de Inicio',
+    'end_date' => 'Fecha de Fin',
+    'register_attendance' => 'Registrar Asistencia',
+    'welcome_message' => 'Bienvenido al sistema de gestión de asistencias',
+];
+
+

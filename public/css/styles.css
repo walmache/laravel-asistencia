@@ -1,0 +1,198 @@
+/* Logo styles */
+.logo-img {
+    border-radius: 4px;
+    transition: transform 0.3s ease;
+    width: 50px;
+    height: auto;
+    max-height: 50px;
+    object-fit: contain;
+}
+
+.logo-img.logo-lg {
+    width: 60px;
+    max-height: 60px;
+}
+
+.logo-img:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* Flag icon size */
+.flag-icon {
+    font-size: 0.9em;
+}
+
+/* Hero section background - modern meeting/executive style */
+.hero-section {
+    min-height: 100vh;
+    background: linear-gradient(rgba(99, 102, 241, 0.75), rgba(139, 92, 246, 0.75)), url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    padding-top: 70px;
+}
+
+/* Typography - Font families */
+/* Encabezado / título (hero) */
+h1, .hero-title, .display-1, .display-2, .display-3, .display-4, .display-5, .display-6 {
+    font-family: Georgia, serif;
+}
+
+/* Subtítulos / secciones intermedias */
+h2, h3, h4, h5, h6, .subtitle, .section-title {
+    font-family: "Times New Roman", serif;
+}
+
+/* Texto principal / párrafos */
+body, p, .text-body, .lead {
+    font-family: Arial, sans-serif;
+}
+
+/* Botones / UI / formularios */
+button, .btn, input, select, textarea, label, .form-control, .form-label, .nav-link, .dropdown-item {
+    font-family: Tahoma, sans-serif;
+}
+
+/* Sidebar menu items - same font as dropdown */
+.sidebar .nav-link p, .sidebar .nav-link {
+    font-weight: normal;
+    font-family: Tahoma, sans-serif;
+}
+
+/* Modern colors */
+:root {
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary-color: #8b5cf6;
+    --accent-color: #ec4899;
+    --success-color: #10b981;
+    --info-color: #3b82f6;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+}
+
+/* Login modal modern design */
+.login-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.login-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+}
+
+.login-tab {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.login-tab.active {
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+.login-tab:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.social-login-btn {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.social-login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-facebook {
+    background: #1877f2;
+    color: white;
+}
+
+.btn-twitter {
+    background: #1da1f2;
+    color: white;
+}
+
+.login-separator {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.login-separator::before,
+.login-separator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+.login-separator::before {
+    left: 0;
+}
+
+.login-separator::after {
+    right: 0;
+}
+
+.modern-input {
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s;
+}
+
+.modern-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    outline: none;
+}
+
+.modern-btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 2rem;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.modern-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    color: white;
+}
+
+/* Código, bloques técnicos o ejemplos */
+code, pre, .code-block, .testimonial-technical, .example-block {
+    font-family: "Courier New", monospace;
+}
+
+/* Elementos decorativos o citas destacadas */
+blockquote, .quote, .decorative-text, .cursive-text {
+    font-family: "Brush Script MT", cursive;
+}
+

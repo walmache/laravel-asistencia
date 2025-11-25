@@ -1,59 +1,122 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de Asistencia con Reconocimiento Facial
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema de gestión de asistencia a eventos con múltiples métodos de registro: reconocimiento facial, códigos QR, códigos de barras y registro manual.
 
-## About Laravel
+## Características
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Gestión de Organizaciones**: Administración de múltiples organizaciones
+- **Gestión de Eventos**: Creación y administración de eventos con fechas de inicio y fin
+- **Múltiples Métodos de Registro**:
+  - Reconocimiento facial mediante API Python con FastAPI
+  - Códigos QR
+  - Códigos de barras
+  - Registro manual
+- **Gestión de Usuarios**: Sistema de usuarios con roles (admin, coordinator, user)
+- **Registro de Asistencias**: Historial completo de asistencias con timestamps y métodos utilizados
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Arquitectura
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+El proyecto utiliza una arquitectura de microservicios:
 
-## Learning Laravel
+- **Backend Laravel**: API REST y aplicación web principal
+- **API Python**: Servicio de reconocimiento facial con FastAPI y face_recognition
+- **Base de Datos MySQL**: Almacenamiento de datos
+- **Redis**: Cache y sesiones
+- **Nginx**: Servidor web y proxy reverso
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Requisitos
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Docker y Docker Compose
+- PHP 8.2+
+- Composer
+- Node.js y npm (para assets frontend)
 
-## Laravel Sponsors
+## Instalación
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Clonar el repositorio:
+```bash
+git clone <repository-url>
+cd laravel-asistencia
+```
 
-### Premium Partners
+2. Configurar variables de entorno:
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+3. Iniciar los contenedores Docker:
+```bash
+docker compose up -d
+```
 
-## Contributing
+4. Instalar dependencias de PHP:
+```bash
+docker compose exec app composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. Ejecutar migraciones:
+```bash
+docker compose exec app php artisan migrate
+```
 
-## Code of Conduct
+6. Instalar dependencias de Node.js:
+```bash
+npm install
+npm run build
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Servicios
 
-## Security Vulnerabilities
+- **Laravel App**: http://localhost:8000
+- **Python API**: http://localhost:8001
+- **MySQL**: localhost:3307
+- **Redis**: localhost:6379
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Estructura del Proyecto
 
-## License
+```
+laravel-asistencia/
+├── app/
+│   ├── Http/Controllers/    # Controladores de la aplicación
+│   ├── Models/              # Modelos Eloquent
+│   └── Services/            # Servicios (FaceRecognitionService)
+├── services/
+│   └── python-api/          # API de reconocimiento facial
+├── database/
+│   └── migrations/          # Migraciones de base de datos
+└── resources/
+    └── views/               # Vistas (Twig templates)
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Modelos Principales
+
+- **Organization**: Organizaciones que gestionan eventos
+- **Event**: Eventos con fechas, códigos QR/barcode y configuración de reconocimiento facial
+- **User**: Usuarios del sistema con roles y embeddings faciales
+- **Attendance**: Registros de asistencia a eventos
+
+## API de Reconocimiento Facial
+
+La API Python expone dos endpoints principales:
+
+- `POST /extract-embedding`: Extrae el embedding facial de una imagen
+- `POST /verify-face`: Verifica si un rostro coincide con usuarios registrados en un evento
+
+## Desarrollo
+
+Para desarrollo local con hot-reload:
+
+```bash
+composer run dev
+```
+
+Para ejecutar tests:
+
+```bash
+composer run test
+```
+
+## Licencia
+
+MIT License

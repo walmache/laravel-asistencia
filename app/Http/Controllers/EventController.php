@@ -4,26 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Organization;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::with('organization')->paginate(15);
+        $user = Auth::user();
+        if (!$user) return redirect()->route('login');
+        if (!$user->hasRole(['admin', 'coordinator'])) abort(403);
+        
+        $events = $user->hasRole('admin') 
+            ? Event::with('organization')->paginate(15)
+            : $user->events()->with('organization')->paginate(15);
+        
         return view('events.index', compact('events'));
     }
 
     public function create()
     {
-        $organizations = Organization::all();
-        $users = User::all();
-        return view('events.create', compact('organizations', 'users'));
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) abort(403);
+        return view('events.create', [
+            'organizations' => Organization::all(),
+            'users' => \App\Models\User::all()
+        ]);
     }
 
     public function store(Request $request)
     {
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) abort(403);
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -38,35 +49,39 @@ class EventController extends Controller
         ]);
 
         $event = Event::create($validated);
-        
-        // Attach users to the event
-        if (isset($validated['user_ids'])) {
-            $event->users()->attach($validated['user_ids']);
-        }
+        if (isset($validated['user_ids'])) $event->users()->attach($validated['user_ids']);
 
-        return redirect()->route('events.index')->with('success', 'Event created successfully.');
+        return redirect()->route('events.index')->with('success', 'Evento creado exitosamente.');
     }
 
     public function show($id)
     {
+        $user = Auth::user();
+        if (!$user) return redirect()->route('login');
+        
         $event = Event::with(['organization', 'users', 'attendances'])->findOrFail($id);
+        if ($user->hasRole('user') && !$event->users->contains($user->id)) abort(403);
+        
         return view('events.show', compact('event'));
     }
 
     public function edit($id)
     {
-        $event = Event::findOrFail($id);
-        $organizations = Organization::all();
-        $users = User::all();
-        $eventUsers = $event->users->pluck('id')->toArray();
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) abort(403);
         
-        return view('events.edit', compact('event', 'organizations', 'users', 'eventUsers'));
+        return view('events.edit', [
+            'event' => Event::findOrFail($id),
+            'organizations' => Organization::all(),
+            'users' => \App\Models\User::all(),
+            'eventUsers' => Event::findOrFail($id)->users->pluck('id')->toArray()
+        ]);
     }
 
     public function update(Request $request, $id)
     {
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) abort(403);
+        
         $event = Event::findOrFail($id);
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -81,44 +96,29 @@ class EventController extends Controller
         ]);
 
         $event->update($validated);
-        
-        // Sync users with the event
-        if (isset($validated['user_ids'])) {
-            $event->users()->sync($validated['user_ids']);
-        } else {
-            $event->users()->detach();
-        }
+        isset($validated['user_ids']) ? $event->users()->sync($validated['user_ids']) : $event->users()->detach();
 
-        return redirect()->route('events.index')->with('success', 'Event updated successfully.');
+        return redirect()->route('events.index')->with('success', 'Evento actualizado exitosamente.');
     }
 
     public function destroy($id)
     {
-        $event = Event::findOrFail($id);
-        $event->delete();
-
-        return redirect()->route('events.index')->with('success', 'Event deleted successfully.');
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) abort(403);
+        Event::findOrFail($id)->delete();
+        return redirect()->route('events.index')->with('success', 'Evento eliminado exitosamente.');
     }
 
     public function assignUsers(Request $request, $eventId)
     {
-        $event = Event::findOrFail($eventId);
-        
-        $validated = $request->validate([
-            'user_ids' => 'required|array',
-            'user_ids.*' => 'exists:users,id',
-        ]);
-
-        $event->users()->syncWithoutDetaching($validated['user_ids']);
-
-        return response()->json(['success' => true, 'message' => 'Users assigned to event successfully.']);
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) abort(403);
+        Event::findOrFail($eventId)->users()->syncWithoutDetaching($request->validate(['user_ids' => 'required|array', 'user_ids.*' => 'exists:users,id'])['user_ids']);
+        return response()->json(['success' => true]);
     }
 
     public function removeUser($eventId, $userId)
     {
-        $event = Event::findOrFail($eventId);
-        $event->users()->detach($userId);
-
-        return response()->json(['success' => true, 'message' => 'User removed from event successfully.']);
+        if (!Auth::user()?->hasRole(['admin', 'coordinator'])) abort(403);
+        Event::findOrFail($eventId)->users()->detach($userId);
+        return response()->json(['success' => true]);
     }
 }

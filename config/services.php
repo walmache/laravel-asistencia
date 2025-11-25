@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'face_recognition' => [
+        'url' => env('FACE_RECOGNITION_API_URL', 'http://python-api:8000/'),
+    ],
+
 ];

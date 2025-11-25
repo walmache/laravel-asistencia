@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'coordinator', 'user'])->default('user');
+            $table->json('face_embedding')->nullable(); // Store facial embedding as JSON array
+            $table->string('face_image_path')->nullable();
+            $table->boolean('consent_face_processing')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
