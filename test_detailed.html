@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Card Border - Detallado</title>
+    <!-- AdminLTE CSS (incluye Bootstrap 4) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
+    <style>
+        /* Estilos para depuración */
+        .debug-border {
+            border: 2px solid red !important;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <h1>Test Card Border - Detallado</h1>
+                </div>
+            </div>
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Card original que no muestra el borde -->
+                    <h3>Card original (sin borde visible):</h3>
+                    <div class="card border-primary mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Header</div>
+                        <div class="card-body text-primary">
+                            <h5 class="card-title">Primary card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Card con borde rojo para comparación -->
+                    <h3>Card con borde rojo (para comparación):</h3>
+                    <div class="card debug-border mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Header</div>
+                        <div class="card-body text-primary">
+                            <h5 class="card-title">Primary card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Prueba de las clases de borde directamente -->
+                    <h3>Prueba de clases de borde directamente:</h3>
+                    <div class="border-primary p-3 mb-2">Elemento con clase border-primary</div>
+                    <div class="border p-3 mb-2">Elemento con clase border (sin color)</div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

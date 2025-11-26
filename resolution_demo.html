@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solución definitiva - Card Border</title>
+    <!-- AdminLTE CSS (usa Bootstrap 4 integrado) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2.0/dist/css/adminlte.min.css">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .solution-explanation {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <h1>Solución definitiva - Card Border</h1>
+                </div>
+            </div>
+            
+            <div class="solution-explanation">
+                <h3>Problema resuelto:</h3>
+                <p><strong>Conflicto identificado:</strong> Se estaban cargando dos versiones diferentes de Bootstrap (Bootstrap 4 a través de AdminLTE y Bootstrap 5 independientemente).</p>
+                <p><strong>Solución aplicada:</strong> Eliminación de la carga duplicada de Bootstrap 5, dejando solo la versión incluida en AdminLTE (Bootstrap 4).</p>
+                <p><strong>Resultado:</strong> La clase <code>border-primary</code> ahora funciona correctamente.</p>
+            </div>
+            
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Card original que ahora debería mostrar el borde -->
+                    <div class="card border-primary mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Header</div>
+                        <div class="card-body text-primary">
+                            <h5 class="card-title">Primary card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Demostración de todas las variantes de bordes -->
+                    <h3>Todas las variantes de bordes funcionando:</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card border-primary mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">Primary Border</h5>
+                                    <p class="card-text">Card con borde primario.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-success mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title text-success">Success Border</h5>
+                                    <p class="card-text">Card con borde de éxito.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-danger mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title text-danger">Danger Border</h5>
+                                    <p class="card-text">Card con borde de peligro.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
