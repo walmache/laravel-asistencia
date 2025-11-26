@@ -85,9 +85,9 @@
                             <td><span class="badge bg-{{ $event->status == 'scheduled' ? 'secondary' : ($event->status == 'ongoing' ? 'success' : 'info') }}">{{ ucfirst($event->status) }}</span></td>
                             <td>{{ $event->users->count() ?? 0 }}</td>
                             <td>
-                                <a href="{{ route('attendance.show', ['id' => $event->id]) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{ __('common.view_details') }}"><i class="fas fa-eye fa-xs"></i></a>
+                                <a href="{{ route('attendance.show', ['id' => $event->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="{{ __('common.view_details') }}"><i class="fas fa-eye fa-xs"></i></a>
                                 @if($user && $user->hasRole(['admin', 'coordinator']))
-                                <a href="{{ route('events.edit', ['event' => $event->id]) }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="{{ __('common.edit_item') }}"><i class="fas fa-edit fa-xs"></i></a>
+                                <a href="{{ route('events.edit', ['event' => $event->id]) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="{{ __('common.edit_item') }}"><i class="fas fa-edit fa-xs"></i></a>
                                 @endif
                             </td>
                         </tr>

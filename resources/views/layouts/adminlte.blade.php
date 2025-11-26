@@ -32,10 +32,10 @@
     <meta name="app-locale" content="{{ app()->getLocale() }}">
     
     <!-- Stylesheets - Local -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <!-- AdminLTE ya incluye Bootstrap 4, no cargar Bootstrap 5 -->
     <link rel="stylesheet" href="{{ asset('adminlte/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/vendor/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/vendor/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/vendor/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     @stack('styles')
     <style>
@@ -75,15 +75,19 @@
         <section class="content">
             <div class="container-fluid">
                 @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                 @endif
                 @if(session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         {{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                 @endif
                 @yield('content')
@@ -96,17 +100,18 @@
 @include('partials.login-modal')
 
 <!-- Scripts - Local -->
+<!-- AdminLTE ya incluye Bootstrap 4 JS, no cargar Bootstrap 5 -->
 <script src="{{ asset('js/vendor/jquery.min.js') }}"></script>
-<script src="{{ asset('js/vendor/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('adminlte/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('js/vendor/axios.min.js') }}"></script>
 <script src="{{ asset('js/vendor/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('js/vendor/dataTables.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('js/vendor/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/datatables-config.js') }}"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const tooltipList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(el => new bootstrap.Tooltip(el));
+$(document).ready(function() {
+    // Inicializar tooltips con Bootstrap 4 (jQuery)
+    $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
 @stack('scripts')

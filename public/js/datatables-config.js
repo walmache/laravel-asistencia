@@ -51,15 +51,9 @@
             scrollX: false,
             pagingType: 'full_numbers', // Show page numbers with first/last buttons
             drawCallback: function() {
-                // Re-initialize tooltips after DataTables redraw
-                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                    const existingTooltip = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
-                    if (existingTooltip) {
-                        existingTooltip.dispose();
-                    }
-                    return new bootstrap.Tooltip(tooltipTriggerEl);
-                });
+                // Re-initialize tooltips after DataTables redraw (Bootstrap 4 - jQuery)
+                $('[data-toggle="tooltip"]').tooltip('dispose');
+                $('[data-toggle="tooltip"]').tooltip();
             }
         };
 

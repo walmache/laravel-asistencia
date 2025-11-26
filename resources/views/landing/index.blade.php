@@ -67,7 +67,7 @@
             <a class="navbar-brand d-flex align-items-center" href="{{ route('landing') }}">
                 <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" class="logo-img logo-lg" width="60" height="60" loading="eager">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -85,7 +85,7 @@
                         <a class="nav-link fw-semibold text-white" href="#contacto">{{ __('common.contact') }}</a>
                     </li>
                     <li class="nav-item dropdown ms-2">
-                        <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" id="langDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
                             {!! app()->getLocale() == 'es' ? '<span class="flag-icon me-1">🇪🇸</span><span>Español</span>' : '<span class="flag-icon me-1">🇬🇧</span><span>English</span>' !!}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
@@ -94,7 +94,7 @@
                         </ul>
                     </li>
                     <li class="nav-item ms-3">
-                        <a class="nav-link text-white login-btn-link d-flex align-items-center px-3 py-2 rounded" href="#" data-bs-toggle="modal" data-bs-target="#loginModal" style="background-color: rgba(255, 255, 255, 0.15); transition: all 0.3s ease;">
+                        <a class="nav-link text-white login-btn-link d-flex align-items-center px-3 py-2 rounded" href="#" data-toggle="modal" data-target="#loginModal" style="background-color: rgba(255, 255, 255, 0.15); transition: all 0.3s ease;">
                             <i class="fas fa-user me-2"></i>
                             <span class="me-2">{{ __('common.enter') }}</span>
                             <i class="fas fa-chevron-down"></i>

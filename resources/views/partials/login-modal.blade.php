@@ -7,7 +7,9 @@
                         <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" class="logo-img me-2" style="width: 45px; height: 45px;">
                         <span class="fs-5 fw-semibold text-white">neuroTech</span>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             </div>
             <form id="loginForm">

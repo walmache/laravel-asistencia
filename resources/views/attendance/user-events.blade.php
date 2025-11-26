@@ -40,7 +40,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('attendance.show', ['id' => $event->id]) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{ __('common.view_details') }}">
+                                <a href="{{ route('attendance.show', ['id' => $event->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="{{ __('common.view_details') }}">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </td>
