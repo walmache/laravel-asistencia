@@ -18,7 +18,7 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';">
     
     <!-- Stylesheets - Local -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Bootstrap 4 incluido en AdminLTE, no cargar Bootstrap 5 -->
     <link href="{{ asset('css/vendor/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     <meta name="api-base-url" content="{{ url('/api') }}">
@@ -50,8 +50,8 @@
                         @endif
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item d-flex align-items-center" href="{{ route('lang.switch', ['locale' => 'es']) }}"><span class="flag-icon me-2">🇪🇸</span><span>Español</span></a></li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="{{ route('lang.switch', ['locale' => 'en']) }}"><span class="flag-icon me-2">🇬🇧</span><span>English</span></a></li>
+                        <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="es"><span class="flag-icon me-2">🇪🇸</span><span>Español</span></a></li>
+                        <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="en"><span class="flag-icon me-2">🇬🇧</span><span>English</span></a></li>
                     </ul>
                 </div>
                 
@@ -167,7 +167,7 @@
     </div>
 
     <!-- Scripts - Local -->
-    <script src="{{ asset('js/vendor/bootstrap.bundle.min.js') }}"></script>
+    <!-- Bootstrap 4 JS incluido en AdminLTE, no cargar Bootstrap 5 -->
     <script src="{{ asset('js/vendor/axios.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @stack('scripts')

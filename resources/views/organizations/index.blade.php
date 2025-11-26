@@ -6,7 +6,7 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card border">
+        <div class="card border border-info mt-4">
             <div class="card-header bg-light border-bottom">
                 <h3 class="card-title">{{ __('common.organizations') }}</h3>
                 <div class="card-tools">
@@ -15,8 +15,8 @@
                     </a>
                 </div>
             </div>
-            <div class="card-body table-responsive">
-                <table class="table table-hover text-nowrap table-bordered table-sm datatable">
+            <div class="card-body table-responsive p-3">
+                <table class="table table-hover text-nowrap table-bordered border-info table-sm datatable">
                     <thead>
                         <tr>
                             <th>{{ __('common.table_name') }}</th>

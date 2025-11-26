@@ -6,22 +6,14 @@
 @section('content')
 
 
-<div class="card border-primary mb-3" style="max-width: 18rem;">
-  <div class="card-header">Header</div>
-  <div class="card-body text-primary">
-    <h5 class="card-title">Primary card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-</div>
-
 <div class="row">
     <div class="col-12">
-        <div class="mt-2 card border-primary">
+        <div class="card border border-info mt-4">
             <div class="card-header bg-light border-bottom">
                 <h3 class="card-title">{{ __('common.events') }}</h3>
             </div>
-            <div class="card-body table-responsive">
-                <table class="table table-hover text-nowrap table-bordered table-sm datatable">
+            <div class="card-body table-responsive p-3">
+                <table class="table table-hover text-nowrap table-bordered border-info table-sm datatable">
                     <thead>
                         <tr>
                             <th>{{ __('common.events') }}</th>

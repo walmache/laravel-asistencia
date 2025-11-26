@@ -107,5 +107,29 @@ document.addEventListener('DOMContentLoaded', function() {
             return new bootstrap.Tooltip(tooltipTriggerEl);
         }
     });
+
+    // Initialize language dropdown (Bootstrap 4)
+    $('.dropdown-toggle').dropdown();
+
+    // Language switcher functionality
+    $('.lang-switcher').on('click', function(e) {
+        e.preventDefault();
+        const locale = $(this).data('locale');
+
+        // Show loading indicator if needed
+        const $link = $(this);
+        const originalText = $link.text();
+
+        $.ajax({
+            url: '/lang/' + locale,
+            method: 'GET',
+            success: function() {
+                location.reload();
+            },
+            error: function() {
+                alert('Error cambiando idioma. Intente nuevamente.');
+            }
+        });
+    });
 });
 

@@ -6,8 +6,8 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
+        <div class="card border border-info mt-4">
+            <div class="card-header bg-light border-bottom">
                 <h3 class="card-title">Detalles del Evento</h3>
                 @if(auth()->user()?->hasRole(['admin', 'coordinator']))
                 <div class="card-tools">

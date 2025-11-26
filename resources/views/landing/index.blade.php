@@ -32,11 +32,11 @@
     <link rel="apple-touch-icon" href="{{ asset('images/logoNeurotechNegro.png') }}">
     
     <!-- Preload Critical Resources -->
-    <link rel="preload" href="{{ asset('css/bootstrap.min.css') }}" as="style">
     <link rel="preload" href="{{ asset('css/styles.css') }}" as="style">
     
     <!-- Stylesheets - Local -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Bootstrap 4 para landing page (AdminLTE solo para backoffice) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/vendor/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     
@@ -62,41 +62,41 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm fixed-top py-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm fixed-top py-2">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ route('landing') }}">
-                <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" class="logo-img logo-lg" width="60" height="60" loading="eager">
+                <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" width="60" height="60">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
+                <ul class="navbar-nav ml-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold text-white" href="#inicio">{{ __('common.home') }}</a>
+                        <a class="nav-link font-weight-bold text-white" href="#inicio">{{ __('common.home') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold text-white" href="#servicios">{{ __('common.services') }}</a>
+                        <a class="nav-link font-weight-bold text-white" href="#servicios">{{ __('common.services') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold text-white" href="#testimonios">{{ __('common.testimonials') }}</a>
+                        <a class="nav-link font-weight-bold text-white" href="#testimonios">{{ __('common.testimonials') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-semibold text-white" href="#contacto">{{ __('common.contact') }}</a>
+                        <a class="nav-link font-weight-bold text-white" href="#contacto">{{ __('common.contact') }}</a>
                     </li>
-                    <li class="nav-item dropdown ms-2">
+                    <li class="nav-item dropdown ml-2">
                         <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" id="langDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                            {!! app()->getLocale() == 'es' ? '<span class="flag-icon me-1">🇪🇸</span><span>Español</span>' : '<span class="flag-icon me-1">🇬🇧</span><span>English</span>' !!}
+                            {!! app()->getLocale() == 'es' ? '<span class="flag-icon mr-1">🇪🇸</span><span>Español</span>' : '<span class="flag-icon mr-1">🇬🇧</span><span>English</span>' !!}
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-                            <li><a class="dropdown-item d-flex align-items-center" href="{{ route('lang.switch', ['locale' => 'es']) }}"><span class="flag-icon me-2">🇪🇸</span><span>Español</span></a></li>
-                            <li><a class="dropdown-item d-flex align-items-center" href="{{ route('lang.switch', ['locale' => 'en']) }}"><span class="flag-icon me-2">🇬🇧</span><span>English</span></a></li>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
+                            <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="es"><span class="flag-icon mr-2">🇪🇸</span><span>Español</span></a></li>
+                            <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="en"><span class="flag-icon mr-2">🇬🇧</span><span>English</span></a></li>
                         </ul>
                     </li>
-                    <li class="nav-item ms-3">
-                        <a class="nav-link text-white login-btn-link d-flex align-items-center px-3 py-2 rounded" href="#" data-toggle="modal" data-target="#loginModal" style="background-color: rgba(255, 255, 255, 0.15); transition: all 0.3s ease;">
-                            <i class="fas fa-user me-2"></i>
-                            <span class="me-2">{{ __('common.enter') }}</span>
+                    <li class="nav-item ml-3">
+                        <a class="nav-link text-white d-flex align-items-center px-3 py-2 rounded" href="#" data-toggle="modal" data-target="#loginModal">
+                            <i class="fas fa-user mr-2"></i>
+                            <span class="mr-2">{{ __('common.enter') }}</span>
                             <i class="fas fa-chevron-down"></i>
                         </a>
                     </li>
@@ -109,15 +109,15 @@
     <section id="inicio" class="position-relative hero-section">
         <div class="container">
             <div class="row align-items-center text-white">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h1 class="display-3 fw-bold mb-4">Sistema Inteligente de Gestión de Asistencias</h1>
-                    <p class="lead mb-4">Revoluciona la forma en que gestionas las asistencias de tus eventos con tecnología de reconocimiento facial, códigos QR y más. Simple, rápido y eficiente.</p>
+                <div class="col-lg-8">
+                    <h1 class="display-3 fw-bold mb-4" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Sistema Inteligente de Gestión de Asistencias</h1>
+                    <p class="lead mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">Revoluciona la forma en que gestionas las asistencias de tus eventos con tecnología de reconocimiento facial, códigos QR y más. Simple, rápido y eficiente.</p>
                     <div class="d-flex flex-wrap gap-3 justify-content-center">
                         <a href="{{ route('login') }}" class="btn btn-light btn-lg rounded-pill px-5">
-                            <i class="fas fa-rocket me-2"></i>Comenzar Ahora
+                            <i class="fas fa-rocket mr-2"></i>Comenzar Ahora
                         </a>
                         <a href="#servicios" class="btn btn-outline-light btn-lg rounded-pill px-5">
-                            <i class="fas fa-info-circle me-2"></i>Conocer Más
+                            <i class="fas fa-info-circle mr-2"></i>Conocer Más
                         </a>
                     </div>
                 </div>
@@ -204,7 +204,7 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonios" class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <section id="testimonios" class="py-5 bg-primary">
         <div class="container py-5">
             <div class="text-center mb-5 text-white">
                 <h2 class="display-4 fw-bold mb-3">{{ __('common.testimonials') }}</h2>
@@ -223,8 +223,8 @@
                             </div>
                             <p class="card-text">"Sistema increíble, ha simplificado completamente la gestión de asistencias en nuestros eventos corporativos."</p>
                             <div class="d-flex align-items-center mt-3">
-                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                    <span class="text-white fw-bold">JD</span>
+                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 50px; height: 50px;">
+                                    <span class="text-white font-weight-bold">JD</span>
                                 </div>
                                 <div>
                                     <strong>Juan Díaz</strong>
@@ -246,8 +246,8 @@
                             </div>
                             <p class="card-text">"El reconocimiento facial es impresionante. Nuestros eventos ahora son mucho más eficientes y profesionales."</p>
                             <div class="d-flex align-items-center mt-3">
-                                <div class="bg-success rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                    <span class="text-white fw-bold">MG</span>
+                                <div class="bg-success rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 50px; height: 50px;">
+                                    <span class="text-white font-weight-bold">MG</span>
                                 </div>
                                 <div>
                                     <strong>María González</strong>
@@ -269,8 +269,8 @@
                             </div>
                             <p class="card-text">"La mejor inversión que hemos hecho. Ahorramos horas de trabajo manual y nuestros reportes son perfectos."</p>
                             <div class="d-flex align-items-center mt-3">
-                                <div class="bg-info rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                    <span class="text-white fw-bold">CL</span>
+                                <div class="bg-info rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 50px; height: 50px;">
+                                    <span class="text-white font-weight-bold">CL</span>
                                 </div>
                                 <div>
                                     <strong>Carlos López</strong>
@@ -285,12 +285,12 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contacto" class="py-5 text-white" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+    <section id="contacto" class="py-5 text-white bg-danger">
         <div class="container text-center py-5">
             <h2 class="display-4 fw-bold mb-3">{{ __('common.contact') }}</h2>
             <p class="lead mb-4">¿Tienes preguntas? ¿Necesitas más información? Estamos aquí para ayudarte.</p>
             <a href="mailto:contacto@neurotech.com" class="btn btn-light btn-lg rounded-pill px-5">
-                <i class="fas fa-envelope me-2"></i>Contáctanos
+                <i class="fas fa-envelope mr-2"></i>Contáctanos
             </a>
         </div>
     </section>
@@ -306,7 +306,9 @@
     @include('partials.login-modal')
     
     <!-- Defer non-critical JavaScript -->
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}" defer></script>
+    <!-- jQuery and Bootstrap 4 JS para landing page -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/landing.js') }}" defer></script>
 </body>

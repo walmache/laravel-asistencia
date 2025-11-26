@@ -47,6 +47,7 @@
             responsive: true,
             order: [],
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"row mt-2"<"col-6"i><"col-6"p>>',
+           // dom: 'lBfrtip',
             autoWidth: false,
             scrollX: false,
             pagingType: 'full_numbers', // Show page numbers with first/last buttons

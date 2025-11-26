@@ -6,14 +6,14 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card border">
+        <div class="card border border-info mt-4">
             <div class="card-header bg-light border-bottom">
                 <h3 class="card-title">{{ __('common.edit') }} {{ __('common.organizations') }}</h3>
             </div>
             <form action="{{ route('organizations.update', $organization->id) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div class="card-body">
+                <div class="card-body p-3">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">{{ __('common.name') }} <span class="text-danger">*</span></label>

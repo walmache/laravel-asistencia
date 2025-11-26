@@ -38,18 +38,6 @@
     <link rel="stylesheet" href="{{ asset('css/vendor/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     @stack('styles')
-    <style>
-    /* Ensure Bootstrap classes work - override AdminLTE if needed */
-    .card.border {
-        border: 1px solid #dee2e6 !important;
-    }
-    .card-header.bg-light {
-        background-color: #f8f9fa !important;
-    }
-    .card-header.border-bottom {
-        border-bottom: 1px solid #dee2e6 !important;
-    }
-    </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

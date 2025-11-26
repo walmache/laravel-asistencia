@@ -7,17 +7,17 @@
     
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="langDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                @if(app()->getLocale() == 'es')
-                    <span class="flag-icon me-1">🇪🇸</span><span>Español</span>
-                @else
-                    <span class="flag-icon me-1">🇬🇧</span><span>English</span>
-                @endif
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-                <li><a href="{{ route('lang.switch', ['locale' => 'es']) }}" class="dropdown-item d-flex align-items-center"><span class="flag-icon me-2">🇪🇸</span><span>Español</span></a></li>
-                <li><a href="{{ route('lang.switch', ['locale' => 'en']) }}" class="dropdown-item d-flex align-items-center"><span class="flag-icon me-2">🇬🇧</span><span>English</span></a></li>
-            </ul>
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="langDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                        @if(app()->getLocale() == 'es')
+                            <span class="flag-icon me-1">🇪🇸</span><span>Español</span>
+                        @else
+                            <span class="flag-icon me-1">🇬🇧</span><span>English</span>
+                        @endif
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+                        <li><a href="#" class="dropdown-item d-flex align-items-center lang-switcher" data-locale="es"><span class="flag-icon me-2">🇪🇸</span><span>Español</span></a></li>
+                        <li><a href="#" class="dropdown-item d-flex align-items-center lang-switcher" data-locale="en"><span class="flag-icon me-2">🇬🇧</span><span>English</span></a></li>
+                    </ul>
         </li>
         
         @auth

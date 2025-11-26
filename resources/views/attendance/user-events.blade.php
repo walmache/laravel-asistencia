@@ -6,12 +6,12 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card border">
+        <div class="card border border-info mt-4">
             <div class="card-header bg-light border-bottom">
                 <h3 class="card-title">Mis Eventos Asignados</h3>
             </div>
             <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap table-bordered table-sm">
+                <table class="table table-hover text-nowrap table-bordered border-info table-sm">
                     <thead>
                         <tr>
                             <th>{{ __('common.events') }}</th>
