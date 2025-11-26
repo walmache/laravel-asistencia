@@ -4,9 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Registro Manual</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3">
@@ -28,7 +26,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary" onclick="registerManual()">Registrar</button>
             </div>
         </div>
@@ -41,9 +39,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Registro con QR</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
                 <img src="{{ route('attendance.qrcode', ['eventId' => $event->id]) }}" alt="QR Code" class="img-fluid mb-3" style="max-width: 200px;">
@@ -54,7 +50,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-success" onclick="registerQR()">Registrar</button>
             </div>
         </div>
@@ -67,9 +63,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Registro con Código de Barras</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
                 <img src="{{ route('attendance.barcode-image', ['eventId' => $event->id]) }}" alt="Barcode" class="img-fluid mb-3" style="max-width: 300px;">
@@ -80,7 +74,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-info" onclick="registerBarcode()">Registrar</button>
             </div>
         </div>
@@ -94,9 +88,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Registro con Reconocimiento Facial</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
                 <video id="webcam" width="320" height="240" autoplay class="mb-3" style="display:block;"></video>
@@ -112,7 +104,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-success" id="registerFaceButton" style="display:none;" onclick="registerFace()">Registrar</button>
             </div>
         </div>

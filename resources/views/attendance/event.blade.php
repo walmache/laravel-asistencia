@@ -32,17 +32,17 @@
                     <div class="col-md-6">
                         <h5>Opciones de Registro</h5>
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#manualCheckinModal">
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-target="#manualCheckinModal">
                                 <i class="fas fa-check-circle"></i> Registro Manual
                             </button>
-                            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#qrCheckinModal">
+                            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-target="#qrCheckinModal">
                                 <i class="fas fa-qrcode"></i> Código QR
                             </button>
-                            <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#barcodeCheckinModal">
+                            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-target="#barcodeCheckinModal">
                                 <i class="fas fa-barcode"></i> Código de Barras
                             </button>
                             @if($event->allow_face_checkin)
-                            <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#faceCheckinModal">
+                            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-target="#faceCheckinModal">
                                 <i class="fas fa-user-check"></i> Reconocimiento Facial
                             </button>
                             @endif

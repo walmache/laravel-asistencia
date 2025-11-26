@@ -35,29 +35,29 @@
             <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" class="me-2 logo-img">
             <span class="fw-bold">neuroTech</span>
         </a>
-        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         
         <div class="navbar-nav">
             <div class="nav-item text-nowrap d-flex align-items-center">
                 <div class="dropdown me-3">
-                    <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" id="langDropdown" role="button" data-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown">
                         @if(app()->getLocale() == 'es')
-                            <span class="flag-icon me-1">🇪🇸</span><span>Español</span>
+                            <span class="flag-icon me-1 small">🇪🇸</span><span>Español</span>
                         @else
-                            <span class="flag-icon me-1">🇬🇧</span><span>English</span>
+                            <span class="flag-icon me-1 small">🇬🇧</span><span>English</span>
                         @endif
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="es"><span class="flag-icon me-2">🇪🇸</span><span>Español</span></a></li>
-                        <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="en"><span class="flag-icon me-2">🇬🇧</span><span>English</span></a></li>
+                        <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="es"><span class="flag-icon me-2 small">🇪🇸</span><span>Español</span></a></li>
+                        <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="en"><span class="flag-icon me-2 small">🇬🇧</span><span>English</span></a></li>
                     </ul>
                 </div>
                 
                 @if($current_user)
                 <div class="dropdown me-3">
-                    <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-user me-1"></i>{{ $current_user->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -146,18 +146,14 @@
                 @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                         {{ session('success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
                 
                 @if(session('error'))
                     <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
                         {{ session('error') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 

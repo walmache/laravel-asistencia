@@ -35,7 +35,7 @@
                             <td><span class="badge bg-{{ $event->status == 'scheduled' ? 'secondary' : ($event->status == 'ongoing' ? 'success' : 'info') }}">{{ ucfirst($event->status) }}</span></td>
                             <td>{{ $event->attendances->count() ?? 0 }}</td>
                             <td>
-                                <a href="{{ route('attendance.show', ['id' => $event->id]) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="{{ __('common.view_details') }}">
+                                <a href="{{ route('attendance.show', ['id' => $event->id]) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{ __('common.view_details') }}">
                                     <i class="fas fa-eye fa-xs"></i>
                                 </a>
                             </td>

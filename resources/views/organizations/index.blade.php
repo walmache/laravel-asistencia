@@ -30,11 +30,11 @@
                             <td>{{ $org->name }}</td>
                             <td>{{ Str::limit($org->description ?? 'N/A', 50) }}</td>
                             <td>
-                                <a href="{{ route('organizations.show', $org->id) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="{{ __('common.view_details') }}"><i class="fas fa-eye fa-xs"></i></a>
-                                <a href="{{ route('organizations.edit', $org->id) }}" class="btn btn-sm btn-warning" data-toggle="tooltip" title="{{ __('common.edit_item') }}"><i class="fas fa-edit fa-xs"></i></a>
+                                <a href="{{ route('organizations.show', $org->id) }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="{{ __('common.view_details') }}"><i class="fas fa-eye fa-xs"></i></a>
+                                <a href="{{ route('organizations.edit', $org->id) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="{{ __('common.edit_item') }}"><i class="fas fa-edit fa-xs"></i></a>
                                 <form action="{{ route('organizations.destroy', $org->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="{{ __('common.delete_item') }}" onclick="return confirm('¿Está seguro?')"><i class="fas fa-trash fa-xs"></i></button>
+                                    <button type="submit" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="{{ __('common.delete_item') }}" onclick="return confirm('¿Está seguro?')"><i class="fas fa-trash fa-xs"></i></button>
                                 </form>
                             </td>
                         </tr>

@@ -5,24 +5,24 @@
         </li>
     </ul>
     
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="langDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         @if(app()->getLocale() == 'es')
-                            <span class="flag-icon me-1">🇪🇸</span><span>Español</span>
+                            <span class="flag-icon me-1 small">🇪🇸</span><span>Español</span>
                         @else
-                            <span class="flag-icon me-1">🇬🇧</span><span>English</span>
+                            <span class="flag-icon me-1 small">🇬🇧</span><span>English</span>
                         @endif
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
-                        <li><a href="#" class="dropdown-item d-flex align-items-center lang-switcher" data-locale="es"><span class="flag-icon me-2">🇪🇸</span><span>Español</span></a></li>
-                        <li><a href="#" class="dropdown-item d-flex align-items-center lang-switcher" data-locale="en"><span class="flag-icon me-2">🇬🇧</span><span>English</span></a></li>
+                        <li><a href="#" class="dropdown-item d-flex align-items-center lang-switcher" data-locale="es"><span class="flag-icon me-2 small">🇪🇸</span><span>Español</span></a></li>
+                        <li><a href="#" class="dropdown-item d-flex align-items-center lang-switcher" data-locale="en"><span class="flag-icon me-2 small">🇬🇧</span><span>English</span></a></li>
                     </ul>
         </li>
         
         @auth
         <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
+            <a class="nav-link" data-bs-toggle="dropdown" href="#">
                 <i class="far fa-user"></i> {{ auth()->user()->name }}
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
@@ -40,7 +40,7 @@
         </li>
         @else
         <li class="nav-item">
-            <a class="nav-link login-btn-link d-flex align-items-center px-3 py-2 rounded" href="#" data-toggle="modal" data-target="#loginModal" style="background-color: rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+            <a class="nav-link login-btn-link d-flex align-items-center px-3 py-2 rounded" href="#" data-bs-toggle="modal" data-target="#loginModal" style="background-color: rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
                 <i class="fas fa-user me-2"></i>
                 <span class="me-2">{{ __('common.enter') }}</span>
                 <i class="fas fa-chevron-down"></i>

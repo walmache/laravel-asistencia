@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Initialize language dropdown (Bootstrap 4)
+    // Initialize language dropdown (Bootstrap 5)
     $('.dropdown-toggle').dropdown();
 
     // Language switcher functionality

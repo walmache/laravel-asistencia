@@ -86,8 +86,8 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">{{ __('common.save') }}</button>
-                    <a href="{{ route('users.index') }}" class="btn btn-secondary">{{ __('common.cancel') }}</a>
+                    <button type="submit" class="btn btn-primary btn-sm">{{ __('common.save') }}</button>
+                    <a href="{{ route('users.index') }}" class="btn btn-secondary btn-sm">{{ __('common.cancel') }}</a>
                 </div>
             </form>
         </div>

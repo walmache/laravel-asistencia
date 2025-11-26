@@ -34,9 +34,8 @@
     <!-- Preload Critical Resources -->
     <link rel="preload" href="{{ asset('css/styles.css') }}" as="style">
     
-    <!-- Stylesheets - Local -->
-    <!-- Bootstrap 4 para landing page (AdminLTE solo para backoffice) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Stylesheets - Bootstrap 5 compatible with AdminLTE 4 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/vendor/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     
@@ -67,11 +66,11 @@
             <a class="navbar-brand d-flex align-items-center" href="{{ route('landing') }}">
                 <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" width="60" height="60">
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto align-items-center">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
                         <a class="nav-link font-weight-bold text-white" href="#inicio">{{ __('common.home') }}</a>
                     </li>
@@ -84,19 +83,19 @@
                     <li class="nav-item">
                         <a class="nav-link font-weight-bold text-white" href="#contacto">{{ __('common.contact') }}</a>
                     </li>
-                    <li class="nav-item dropdown ml-2">
-                        <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" id="langDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-                            {!! app()->getLocale() == 'es' ? '<span class="flag-icon mr-1">🇪🇸</span><span>Español</span>' : '<span class="flag-icon mr-1">🇬🇧</span><span>English</span>' !!}
+                    <li class="nav-item dropdown ms-2">
+                        <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {!! app()->getLocale() == 'es' ? '<span class="flag-icon me-1 small">🇪🇸</span><span>Español</span>' : '<span class="flag-icon me-1 small">🇬🇧</span><span>English</span>' !!}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="langDropdown">
-                            <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="es"><span class="flag-icon mr-2">🇪🇸</span><span>Español</span></a></li>
-                            <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="en"><span class="flag-icon mr-2">🇬🇧</span><span>English</span></a></li>
+                            <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="es"><span class="flag-icon me-2 small">🇪🇸</span><span>Español</span></a></li>
+                            <li><a class="dropdown-item d-flex align-items-center lang-switcher" href="#" data-locale="en"><span class="flag-icon me-2 small">🇬🇧</span><span>English</span></a></li>
                         </ul>
                     </li>
-                    <li class="nav-item ml-3">
-                        <a class="nav-link text-white d-flex align-items-center px-3 py-2 rounded" href="#" data-toggle="modal" data-target="#loginModal">
-                            <i class="fas fa-user mr-2"></i>
-                            <span class="mr-2">{{ __('common.enter') }}</span>
+                    <li class="nav-item ms-3">
+                        <a class="nav-link text-white d-flex align-items-center px-3 py-2 rounded" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <i class="fas fa-user me-2"></i>
+                            <span class="me-2">{{ __('common.enter') }}</span>
                             <i class="fas fa-chevron-down"></i>
                         </a>
                     </li>
@@ -110,14 +109,14 @@
         <div class="container">
             <div class="row align-items-center text-white">
                 <div class="col-lg-8">
-                    <h1 class="display-3 fw-bold mb-4" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Sistema Inteligente de Gestión de Asistencias</h1>
-                    <p class="lead mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">Revoluciona la forma en que gestionas las asistencias de tus eventos con tecnología de reconocimiento facial, códigos QR y más. Simple, rápido y eficiente.</p>
-                    <div class="d-flex flex-wrap gap-3 justify-content-center">
+                    <h1 class="display-3 fw-bold mb-4 text-shadow">Sistema Inteligente de Gestión de Asistencias</h1>
+                    <p class="lead mb-4 text-shadow-sm">Revoluciona la forma en que gestionas las asistencias de tus eventos con tecnología de reconocimiento facial, códigos QR y más. Simple, rápido y eficiente.</p>
+                    <div class="d-flex flex-wrap gap-3 justify-content-start">
                         <a href="{{ route('login') }}" class="btn btn-light btn-lg rounded-pill px-5">
-                            <i class="fas fa-rocket mr-2"></i>Comenzar Ahora
+                            <i class="fas fa-rocket me-2"></i>Comenzar Ahora
                         </a>
                         <a href="#servicios" class="btn btn-outline-light btn-lg rounded-pill px-5">
-                            <i class="fas fa-info-circle mr-2"></i>Conocer Más
+                            <i class="fas fa-info-circle me-2"></i>Conocer Más
                         </a>
                     </div>
                 </div>
@@ -223,7 +222,7 @@
                             </div>
                             <p class="card-text">"Sistema increíble, ha simplificado completamente la gestión de asistencias en nuestros eventos corporativos."</p>
                             <div class="d-flex align-items-center mt-3">
-                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 50px; height: 50px;">
+                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
                                     <span class="text-white font-weight-bold">JD</span>
                                 </div>
                                 <div>
@@ -246,7 +245,7 @@
                             </div>
                             <p class="card-text">"El reconocimiento facial es impresionante. Nuestros eventos ahora son mucho más eficientes y profesionales."</p>
                             <div class="d-flex align-items-center mt-3">
-                                <div class="bg-success rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 50px; height: 50px;">
+                                <div class="bg-success rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
                                     <span class="text-white font-weight-bold">MG</span>
                                 </div>
                                 <div>
@@ -269,7 +268,7 @@
                             </div>
                             <p class="card-text">"La mejor inversión que hemos hecho. Ahorramos horas de trabajo manual y nuestros reportes son perfectos."</p>
                             <div class="d-flex align-items-center mt-3">
-                                <div class="bg-info rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 50px; height: 50px;">
+                                <div class="bg-info rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
                                     <span class="text-white font-weight-bold">CL</span>
                                 </div>
                                 <div>
@@ -290,7 +289,7 @@
             <h2 class="display-4 fw-bold mb-3">{{ __('common.contact') }}</h2>
             <p class="lead mb-4">¿Tienes preguntas? ¿Necesitas más información? Estamos aquí para ayudarte.</p>
             <a href="mailto:contacto@neurotech.com" class="btn btn-light btn-lg rounded-pill px-5">
-                <i class="fas fa-envelope mr-2"></i>Contáctanos
+                <i class="fas fa-envelope me-2"></i>Contáctanos
             </a>
         </div>
     </section>
@@ -306,9 +305,9 @@
     @include('partials.login-modal')
     
     <!-- Defer non-critical JavaScript -->
-    <!-- jQuery and Bootstrap 4 JS para landing page -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" defer></script>
+    <!-- jQuery and Bootstrap 5 JS compatible with AdminLTE 4 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/landing.js') }}" defer></script>
 </body>
