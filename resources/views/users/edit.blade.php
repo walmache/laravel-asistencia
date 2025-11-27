@@ -69,7 +69,7 @@
                     </div>
                     
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="role" class="form-label">Rol <span class="text-danger">*</span></label>
                             <div class="input-group border border-secondary rounded">
                                 <span class="input-group-text bg-light border-0">
@@ -86,7 +86,26 @@
                             </div>
                         </div>
                         
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
+                            <label for="organization_id" class="form-label">Organización</label>
+                            <div class="input-group border border-secondary rounded">
+                                <span class="input-group-text bg-light border-0">
+                                    <i class="fas fa-building"></i>
+                                </span>
+                                <select class="form-select border-0 form-select-sm @error('organization_id') is-invalid @enderror" id="organization_id" name="organization_id">
+                                    <option value="">-- Sin organización --</option>
+                                    @foreach($organizations as $org)
+                                        <option value="{{ $org->id }}" {{ old('organization_id', $user->organization_id) == $org->id ? 'selected' : '' }}>{{ $org->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('organization_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <small class="text-muted">Asignar a una organización para acceder a sus eventos privados.</small>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
                             <label for="avatar" class="form-label">Foto de Perfil</label>
                             <div class="input-group border border-secondary rounded">
                                 <span class="input-group-text bg-light border-0">
@@ -130,8 +149,8 @@
                     </div>
                 </div>
                 <div class="card-footer bg-secondary bg-opacity-25 border-top border-dark text-end">
-                    <a href="{{ route('users.index') }}" class="btn btn-secondary btn-sm">{{ __('common.cancel') }}</a>
-                    <button type="submit" class="btn btn-primary btn-sm">{{ __('common.save') }}</button>
+                    <a href="{{ route('users.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-times me-1"></i>{{ __('common.cancel') }}</a>
+                    <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save me-1"></i>{{ __('common.save') }}</button>
                 </div>
             </form>
         </div>

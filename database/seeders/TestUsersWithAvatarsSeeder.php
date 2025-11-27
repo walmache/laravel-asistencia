@@ -67,3 +67,4 @@ class TestUsersWithAvatarsSeeder extends Seeder
     }
 }
 
+

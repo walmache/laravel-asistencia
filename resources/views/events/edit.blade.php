@@ -122,8 +122,8 @@
                     </div>
                 </div>
                 <div class="card-footer bg-secondary bg-opacity-25 border-top border-dark text-end">
-                    <a href="{{ route('events.index') }}" class="btn btn-secondary btn-sm">{{ __('common.cancel') }}</a>
-                    <button type="submit" class="btn btn-primary btn-sm">{{ __('common.save') }}</button>
+                    <a href="{{ route('events.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-times me-1"></i>{{ __('common.cancel') }}</a>
+                    <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-save me-1"></i>{{ __('common.save') }}</button>
                 </div>
             </form>
         </div>

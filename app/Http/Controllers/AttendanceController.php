@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Attendance;
+use App\Models\EventRegistration;
 use App\Services\FaceRecognitionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,36 +71,247 @@ class AttendanceController extends Controller
         return response()->json(['success' => true, 'attendance' => $attendance]);
     }
 
+    /**
+     * Registro rápido de asistencia desde la tabla de participantes
+     * Permite registrar con cualquier método (manual, qr, barcode)
+     */
+    public function quickRegister(Request $request, $eventId)
+    {
+        $user = Auth::user();
+        if (!$user) return response()->json(['error' => 'Unauthorized'], 401);
+        
+        if (!$user->hasRole(['admin', 'coordinator'])) {
+            return response()->json(['error' => 'No tiene permisos para registrar asistencia'], 403);
+        }
+        
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'method' => 'required|in:manual,qr,barcode,face',
+            'status' => 'sometimes|in:present,absent,justified'
+        ]);
+        
+        // Verificar que el usuario esté inscrito en el evento
+        $event = Event::findOrFail($eventId);
+        if (!$event->users->contains($validated['user_id'])) {
+            return response()->json(['error' => 'El usuario no está inscrito en este evento'], 400);
+        }
+        
+        // Verificar si ya tiene asistencia registrada
+        $existingAttendance = Attendance::where('event_id', $eventId)
+            ->where('user_id', $validated['user_id'])
+            ->first();
+            
+        if ($existingAttendance) {
+            return response()->json(['error' => 'El usuario ya tiene asistencia registrada'], 400);
+        }
+        
+        $attendance = Attendance::create([
+            'event_id' => $eventId,
+            'user_id' => $validated['user_id'],
+            'check_in_at' => now(),
+            'method' => $validated['method'],
+            'status' => $validated['status'] ?? 'present',
+            'metadata' => [
+                'device' => $request->userAgent(),
+                'ip' => $request->ip(),
+                'registered_by' => $user->id,
+                'registered_by_name' => $user->name,
+                'quick_register' => true
+            ]
+        ]);
+        
+        return response()->json(['success' => true, 'attendance' => $attendance]);
+    }
+
+    /**
+     * Anular/eliminar una asistencia registrada
+     */
+    public function destroy($attendanceId)
+    {
+        $user = Auth::user();
+        if (!$user) return response()->json(['error' => 'Unauthorized'], 401);
+        
+        if (!$user->hasRole(['admin', 'coordinator'])) {
+            return response()->json(['error' => 'No tiene permisos para anular asistencias'], 403);
+        }
+        
+        $attendance = Attendance::findOrFail($attendanceId);
+        $attendance->delete();
+        
+        return response()->json(['success' => true, 'message' => 'Asistencia anulada correctamente']);
+    }
+
+    /**
+     * Registra asistencia escaneando código QR único del participante
+     * 
+     * El código QR está vinculado a una inscripción específica (usuario + evento)
+     * y solo puede ser usado una vez (o por sesión en eventos con múltiples sesiones)
+     */
     public function registerQR(Request $request, $eventId)
     {
         $user = Auth::user();
         if (!$user) return response()->json(['error' => 'Unauthorized'], 401);
         
-        $validated = $request->validate(['qr_token' => 'required|string']);
-        $userId = $request->user_id;
+        $validated = $request->validate([
+            'qr_code' => 'required|string|uuid',
+            'session_id' => 'nullable|exists:event_sessions,id',
+        ]);
         
-        $attendance = Attendance::updateOrCreate(
-            ['event_id' => $eventId, 'user_id' => $userId],
-            ['check_in_at' => now(), 'method' => 'qr', 'status' => 'present', 'metadata' => ['device' => $request->userAgent(), 'ip' => $request->ip(), 'qr_token' => $validated['qr_token']]]
-        );
+        // Buscar la inscripción por código QR
+        $registration = EventRegistration::findByQrCode($validated['qr_code']);
         
-        return response()->json(['success' => true, 'attendance' => $attendance]);
+        if (!$registration) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Código QR no válido o no encontrado.'
+            ], 404);
+        }
+        
+        // Verificar que el código pertenece a este evento
+        if ($registration->event_id != $eventId) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Este código QR no corresponde a este evento.'
+            ], 400);
+        }
+        
+        // Usar el código y registrar asistencia
+        $result = $registration->useCode('qr', $validated['session_id'] ?? null);
+        
+        if (!$result['success']) {
+            return response()->json([
+                'success' => false,
+                'error' => $result['message']
+            ], 400);
+        }
+        
+        return response()->json([
+            'success' => true,
+            'message' => $result['message'],
+            'attendance' => $result['attendance'],
+            'user' => $registration->user->only(['id', 'name', 'email']),
+        ]);
     }
 
+    /**
+     * Registra asistencia escaneando código de barras único del participante
+     */
     public function registerBarcode(Request $request, $eventId)
     {
         $user = Auth::user();
         if (!$user) return response()->json(['error' => 'Unauthorized'], 401);
         
-        $validated = $request->validate(['barcode_data' => 'required|string']);
-        $userId = $request->user_id;
+        $validated = $request->validate([
+            'barcode' => 'required|string|max:15',
+            'session_id' => 'nullable|exists:event_sessions,id',
+        ]);
         
-        $attendance = Attendance::updateOrCreate(
-            ['event_id' => $eventId, 'user_id' => $userId],
-            ['check_in_at' => now(), 'method' => 'barcode', 'status' => 'present', 'metadata' => ['device' => $request->userAgent(), 'ip' => $request->ip(), 'barcode_data' => $validated['barcode_data']]]
-        );
+        // Buscar la inscripción por código de barras
+        $registration = EventRegistration::findByBarcode($validated['barcode']);
         
-        return response()->json(['success' => true, 'attendance' => $attendance]);
+        if (!$registration) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Código de barras no válido o no encontrado.'
+            ], 404);
+        }
+        
+        // Verificar que el código pertenece a este evento
+        if ($registration->event_id != $eventId) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Este código de barras no corresponde a este evento.'
+            ], 400);
+        }
+        
+        // Usar el código y registrar asistencia
+        $result = $registration->useCode('barcode', $validated['session_id'] ?? null);
+        
+        if (!$result['success']) {
+            return response()->json([
+                'success' => false,
+                'error' => $result['message']
+            ], 400);
+        }
+        
+        return response()->json([
+            'success' => true,
+            'message' => $result['message'],
+            'attendance' => $result['attendance'],
+            'user' => $registration->user->only(['id', 'name', 'email']),
+        ]);
+    }
+
+    /**
+     * Escanea cualquier código (QR o barras) y detecta automáticamente el tipo
+     */
+    public function scanCode(Request $request, $eventId)
+    {
+        $user = Auth::user();
+        if (!$user) return response()->json(['error' => 'Unauthorized'], 401);
+        
+        $validated = $request->validate([
+            'code' => 'required|string',
+            'session_id' => 'nullable|exists:event_sessions,id',
+        ]);
+        
+        $code = trim($validated['code']);
+        $sessionId = $validated['session_id'] ?? null;
+        
+        // Detectar tipo de código
+        // UUID (36 chars con guiones) = QR
+        // Formato EXXXXUXXXXAAAA (15 chars) = Barcode
+        $registration = null;
+        $method = 'unknown';
+        
+        if (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $code)) {
+            // Es un UUID (código QR)
+            $registration = EventRegistration::findByQrCode($code);
+            $method = 'qr';
+        } elseif (preg_match('/^E\d{4}U\d{4}[A-Z0-9]{4}$/', $code)) {
+            // Es un código de barras
+            $registration = EventRegistration::findByBarcode($code);
+            $method = 'barcode';
+        } else {
+            // Intentar buscar en ambos campos
+            $registration = EventRegistration::where('qr_code', $code)
+                ->orWhere('barcode', $code)
+                ->first();
+            $method = $registration ? ($registration->qr_code === $code ? 'qr' : 'barcode') : 'unknown';
+        }
+        
+        if (!$registration) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Código no válido o no encontrado.'
+            ], 404);
+        }
+        
+        // Verificar que el código pertenece a este evento
+        if ($registration->event_id != $eventId) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Este código no corresponde a este evento.'
+            ], 400);
+        }
+        
+        // Usar el código y registrar asistencia
+        $result = $registration->useCode($method, $sessionId);
+        
+        if (!$result['success']) {
+            return response()->json([
+                'success' => false,
+                'error' => $result['message']
+            ], 400);
+        }
+        
+        return response()->json([
+            'success' => true,
+            'message' => $result['message'],
+            'attendance' => $result['attendance'],
+            'user' => $registration->user->only(['id', 'name', 'email']),
+            'method_detected' => $method,
+        ]);
     }
 
     public function registerFace(Request $request, $eventId)

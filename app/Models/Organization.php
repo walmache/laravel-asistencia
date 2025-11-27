@@ -11,7 +11,14 @@ class Organization extends Model
 
     protected $fillable = [
         'name',
+        'ruc',
+        'business_name',
         'description',
+        'address',
+        'phone',
+        'email',
+        'legal_rep_id',
+        'legal_rep_name',
     ];
 
     public function events()

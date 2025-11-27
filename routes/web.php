@@ -49,7 +49,10 @@ Route::get('attendance/event/{id}', [AttendanceController::class, 'showEvent'])-
 Route::post('attendance/{eventId}/manual', [AttendanceController::class, 'registerManual'])->name('attendance.manual');
 Route::post('attendance/{eventId}/qr', [AttendanceController::class, 'registerQR'])->name('attendance.qr');
 Route::post('attendance/{eventId}/barcode', [AttendanceController::class, 'registerBarcode'])->name('attendance.barcode');
+Route::post('attendance/{eventId}/scan', [AttendanceController::class, 'scanCode'])->name('attendance.scan');
 Route::post('attendance/{eventId}/face', [AttendanceController::class, 'registerFace'])->name('attendance.face');
+Route::post('attendance/{eventId}/quick-register', [AttendanceController::class, 'quickRegister'])->name('attendance.quick-register');
+Route::delete('attendance/{attendanceId}', [AttendanceController::class, 'destroy'])->name('attendance.destroy');
 Route::get('attendance/{eventId}/qrcode', [AttendanceController::class, 'generateQRCode'])->name('attendance.qrcode');
 Route::get('attendance/{eventId}/barcode-image', [AttendanceController::class, 'generateBarcode'])->name('attendance.barcode-image');
 Route::post('attendance/upload-face', [AttendanceController::class, 'uploadFaceImage'])->name('attendance.upload-face');

@@ -59,8 +59,8 @@
                 </dl>
             </div>
             <div class="card-footer bg-secondary bg-opacity-25 border-top border-dark text-end">
-                <a href="{{ route('events.index') }}" class="btn btn-secondary btn-sm">{{ __('common.cancel') }}</a>
-                <a href="{{ route('attendance.show', $event->id) }}" class="btn btn-primary btn-sm">Ver Asistencias</a>
+                <a href="{{ route('events.index') }}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left me-1"></i>{{ __('common.back') }}</a>
+                <a href="{{ route('attendance.show', $event->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-clipboard-check me-1"></i>Ver Asistencias</a>
             </div>
         </div>
     </div>

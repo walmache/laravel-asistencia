@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,9 @@ class UserController extends Controller
             abort(403);
         }
         
-        return view('users.create');
+        return view('users.create', [
+            'organizations' => Organization::all()
+        ]);
     }
 
     public function store(Request $request)
@@ -61,6 +64,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:admin,coordinator,user',
+            'organization_id' => 'nullable|exists:organizations,id',
             'avatar' => 'nullable|image|mimes:' . self::AVATAR_ALLOWED_TYPES . '|max:' . self::AVATAR_MAX_SIZE,
         ]);
 
@@ -75,6 +79,7 @@ class UserController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => $validated['role'],
+            'organization_id' => $validated['organization_id'] ?? null,
             'face_image_path' => $avatarPath,
         ]);
 
@@ -91,7 +96,10 @@ class UserController extends Controller
             abort(403);
         }
         
-        return view('users.edit', ['user' => User::findOrFail($id)]);
+        return view('users.edit', [
+            'user' => User::findOrFail($id),
+            'organizations' => Organization::all()
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -110,6 +118,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
             'role' => 'required|in:admin,coordinator,user',
+            'organization_id' => 'nullable|exists:organizations,id',
             'avatar' => 'nullable|image|mimes:' . self::AVATAR_ALLOWED_TYPES . '|max:' . self::AVATAR_MAX_SIZE,
             'remove_avatar' => 'nullable|boolean',
         ]);
