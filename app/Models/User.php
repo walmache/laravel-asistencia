@@ -71,4 +71,16 @@ class User extends Authenticatable
         
         return in_array($this->role, $roles);
     }
+
+    /**
+     * Obtiene la URL del avatar del usuario
+     * Retorna la imagen facial si existe, null si no
+     */
+    public function getAvatarUrlAttribute(): ?string
+    {
+        if ($this->face_image_path) {
+            return asset('storage/' . $this->face_image_path);
+        }
+        return null;
+    }
 }

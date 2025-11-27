@@ -19,7 +19,7 @@
     
     <!-- Stylesheets - Local -->
     <!-- Bootstrap 4 incluido en AdminLTE, no cargar Bootstrap 5 -->
-    <link href="{{ asset('css/vendor/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('fontawesome/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     <meta name="api-base-url" content="{{ url('/api') }}">
     @stack('styles')
@@ -32,7 +32,7 @@
     <!-- Header -->
     <header class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow-sm">
         <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 bg-primary" href="{{ route('dashboard') }}">
-            <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" class="me-2 logo-img">
+            <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" class="me-2" style="width: 40px; height: 40px; object-fit: contain;">
             <span class="fw-bold">neuroTech</span>
         </a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">

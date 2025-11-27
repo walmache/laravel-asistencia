@@ -1,10 +1,10 @@
 <div class="modal fade" id="loginModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded login-modal-enhanced">
+        <div class="modal-content border-0 shadow-lg rounded">
             <div class="login-modal-header bg-primary text-white">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" class="logo-img me-2" style="width: 45px; height: 45px;">
+                        <img src="{{ asset('images/logoNeurotechNegro.png') }}" alt="neuroTech" class="me-2" style="width: 45px; height: 45px; object-fit: contain;">
                         <span class="fs-5 fw-semibold text-white">neuroTech</span>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -15,24 +15,24 @@
                     <div id="loginError" class="alert alert-danger d-none mb-3"></div>
                     
                     <div class="mb-3">
-                        <div class="input-group">
-                            <span class="input-group-text bg-light login-input-icon">
+                        <div class="input-group border border-secondary rounded">
+                            <span class="input-group-text bg-light border-0">
                                 <i class="fas fa-envelope"></i>
                             </span>
-                            <input type="email" class="form-control login-input-enhanced" id="loginEmail" name="email" placeholder="Enter your email" required autofocus>
+                            <input type="email" class="form-control border-0" id="loginEmail" name="email" placeholder="Enter your email" required autofocus>
                         </div>
                     </div>
                     
                     <div class="mb-4">
-                        <div class="input-group">
-                            <span class="input-group-text bg-light login-input-icon">
+                        <div class="input-group border border-secondary rounded">
+                            <span class="input-group-text bg-light border-0">
                                 <i class="fas fa-lock"></i>
                             </span>
-                            <input type="password" class="form-control login-input-enhanced" id="loginPassword" name="password" placeholder="Enter your password" required>
+                            <input type="password" class="form-control border-0" id="loginPassword" name="password" placeholder="Enter your password" required>
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded login-submit-btn-enhanced mb-3">
+                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded mb-3">
                         <i class="fas fa-sign-in-alt me-2"></i>LOGIN
                     </button>
                     
@@ -49,5 +49,3 @@
         </div>
     </div>
 </div>
-
-

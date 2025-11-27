@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="userSelect" class="form-label">Seleccionar Usuario</label>
-                    <select class="form-select" id="userSelect">
+                    <select class="form-select border border-secondary" id="userSelect">
                         <option value="">-- Seleccionar --</option>
                         @foreach($users ?? [] as $user)
                         <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="statusSelect" class="form-label">Estado</label>
-                    <select class="form-select" id="statusSelect">
+                    <select class="form-select border border-secondary" id="statusSelect">
                         <option value="present">Presente</option>
                         <option value="absent">Ausente</option>
                         <option value="justified">Justificado</option>
@@ -46,7 +46,7 @@
                 <p>Escane este código QR para registrarse</p>
                 <div class="mb-3">
                     <label for="qrToken" class="form-label">O ingrese token QR:</label>
-                    <input type="text" class="form-control" id="qrToken" placeholder="Token QR">
+                    <input type="text" class="form-control border border-secondary" id="qrToken" placeholder="Token QR">
                 </div>
             </div>
             <div class="modal-footer">
@@ -70,7 +70,7 @@
                 <p>Escane este código de barras para registrarse</p>
                 <div class="mb-3">
                     <label for="barcodeData" class="form-label">O ingrese datos:</label>
-                    <input type="text" class="form-control" id="barcodeData" placeholder="Datos del código">
+                    <input type="text" class="form-control border border-secondary" id="barcodeData" placeholder="Datos del código">
                 </div>
             </div>
             <div class="modal-footer">

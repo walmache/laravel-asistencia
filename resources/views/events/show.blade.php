@@ -6,8 +6,8 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card border border-info mt-4">
-            <div class="card-header bg-light border-bottom">
+        <div class="card border border-dark mt-4">
+            <div class="card-header bg-secondary bg-opacity-25 border-bottom border-dark">
                 <h3 class="card-title">Detalles del Evento</h3>
                 @if(auth()->user()?->hasRole(['admin', 'coordinator']))
                 <div class="card-tools">
@@ -58,9 +58,9 @@
                     <dd class="col-sm-9">{{ $event->attendances->count() }} registros</dd>
                 </dl>
             </div>
-            <div class="card-footer">
-                <a href="{{ route('events.index') }}" class="btn btn-secondary">{{ __('common.cancel') }}</a>
-                <a href="{{ route('attendance.show', $event->id) }}" class="btn btn-primary">Ver Asistencias</a>
+            <div class="card-footer bg-secondary bg-opacity-25 border-top border-dark text-end">
+                <a href="{{ route('events.index') }}" class="btn btn-secondary btn-sm">{{ __('common.cancel') }}</a>
+                <a href="{{ route('attendance.show', $event->id) }}" class="btn btn-primary btn-sm">Ver Asistencias</a>
             </div>
         </div>
     </div>

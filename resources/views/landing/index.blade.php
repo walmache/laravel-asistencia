@@ -34,9 +34,9 @@
     <!-- Preload Critical Resources -->
     <link rel="preload" href="{{ asset('css/styles.css') }}" as="style">
     
-    <!-- Stylesheets - Bootstrap 5 compatible with AdminLTE 4 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ asset('css/vendor/font-awesome.min.css') }}" rel="stylesheet">
+    <!-- Stylesheets - Bootstrap 5 local files -->
+    <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('fontawesome/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     
     <!-- Structured Data -->
@@ -93,11 +93,21 @@
                         </ul>
                     </li>
                     <li class="nav-item ms-3">
+                        @auth
+                        <a class="nav-link p-0" href="{{ route('dashboard') }}" title="{{ __('common.dashboard') }} - {{ auth()->user()->name }}">
+                            @if(auth()->user()->avatar_url)
+                                <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="rounded-circle border border-2 border-white" style="width: 38px; height: 38px; object-fit: cover;">
+                            @else
+                                <i class="fas fa-circle-user fa-2x text-white"></i>
+                            @endif
+                        </a>
+                        @else
                         <a class="nav-link text-white d-flex align-items-center px-3 py-2 rounded" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
                             <i class="fas fa-user me-2"></i>
                             <span class="me-2">{{ __('common.enter') }}</span>
                             <i class="fas fa-chevron-down"></i>
                         </a>
+                        @endauth
                     </li>
                 </ul>
             </div>
@@ -112,9 +122,15 @@
                     <h1 class="display-3 fw-bold mb-4 text-shadow">Sistema Inteligente de Gestión de Asistencias</h1>
                     <p class="lead mb-4 text-shadow-sm">Revoluciona la forma en que gestionas las asistencias de tus eventos con tecnología de reconocimiento facial, códigos QR y más. Simple, rápido y eficiente.</p>
                     <div class="d-flex flex-wrap gap-3 justify-content-start">
-                        <a href="{{ route('login') }}" class="btn btn-light btn-lg rounded-pill px-5">
+                        @auth
+                        <a href="{{ route('dashboard') }}" class="btn btn-light btn-lg rounded-pill px-5">
+                            <i class="fas fa-tachometer-alt me-2"></i>Ir al Dashboard
+                        </a>
+                        @else
+                        <a href="#" class="btn btn-light btn-lg rounded-pill px-5" data-bs-toggle="modal" data-bs-target="#loginModal">
                             <i class="fas fa-rocket me-2"></i>Comenzar Ahora
                         </a>
+                        @endauth
                         <a href="#servicios" class="btn btn-outline-light btn-lg rounded-pill px-5">
                             <i class="fas fa-info-circle me-2"></i>Conocer Más
                         </a>
@@ -305,9 +321,9 @@
     @include('partials.login-modal')
     
     <!-- Defer non-critical JavaScript -->
-    <!-- jQuery and Bootstrap 5 JS compatible with AdminLTE 4 -->
+    <!-- jQuery and Bootstrap 5 local JS files -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/landing.js') }}" defer></script>
 </body>

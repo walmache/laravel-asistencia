@@ -6,8 +6,8 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <div class="card border border-info mt-4">
-            <div class="card-header bg-light border-bottom">
+        <div class="card border border-dark mt-4">
+            <div class="card-header bg-secondary bg-opacity-25 border-bottom border-dark">
                 <h3 class="card-title">{{ $event->name ?? 'Evento' }}</h3>
                 <div class="card-tools">
                     <a href="{{ route('attendance.index') }}" class="btn btn-secondary btn-sm">
@@ -32,17 +32,17 @@
                     <div class="col-md-6">
                         <h5>Opciones de Registro</h5>
                         <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-target="#manualCheckinModal">
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#manualCheckinModal">
                                 <i class="fas fa-check-circle"></i> Registro Manual
                             </button>
-                            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-target="#qrCheckinModal">
+                            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#qrCheckinModal">
                                 <i class="fas fa-qrcode"></i> Código QR
                             </button>
-                            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-target="#barcodeCheckinModal">
+                            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#barcodeCheckinModal">
                                 <i class="fas fa-barcode"></i> Código de Barras
                             </button>
                             @if($event->allow_face_checkin)
-                            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-target="#faceCheckinModal">
+                            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#faceCheckinModal">
                                 <i class="fas fa-user-check"></i> Reconocimiento Facial
                             </button>
                             @endif
@@ -56,13 +56,13 @@
 
 <div class="row mt-4">
     <div class="col-12">
-        <div class="card border border-info mt-4">
-            <div class="card-header bg-light border-bottom">
+        <div class="card border border-dark mt-4">
+            <div class="card-header bg-secondary bg-opacity-25 border-bottom border-dark">
                 <h3 class="card-title">Asistentes</h3>
             </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap table-bordered border-info table-sm">
-                    <thead>
+            <div class="card-body table-responsive p-3">
+                <table class="table table-hover text-nowrap table-bordered border-secondary table-sm datatable">
+                    <thead class="text-center">
                         <tr>
                             <th>{{ __('common.table_name') }}</th>
                             <th>{{ __('common.table_email') }}</th>
@@ -73,7 +73,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($users ?? [] as $user)
+                        @foreach($users ?? [] as $user)
                             @php $attendance = $attendances->where('user_id', $user->id)->first(); @endphp
                         <tr>
                             <td>{{ $user->name }}</td>
@@ -89,9 +89,7 @@
                             <td>{{ $attendance ? $attendance->check_in_at->format('d/m/Y H:i') : 'N/A' }}</td>
                             <td>{{ $attendance ? ucfirst($attendance->method) : 'N/A' }}</td>
                         </tr>
-                        @empty
-                        <tr><td colspan="6" class="text-center">No hay usuarios asignados a este evento</td></tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>

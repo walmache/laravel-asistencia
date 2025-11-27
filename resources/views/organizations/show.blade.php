@@ -6,8 +6,8 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card border border-info mt-4">
-            <div class="card-header bg-light border-bottom">
+        <div class="card border border-dark mt-4">
+            <div class="card-header bg-secondary bg-opacity-25 border-bottom border-dark">
                 <h3 class="card-title">Detalles de la Organización</h3>
                 <div class="card-tools">
                     <a href="{{ route('organizations.edit', $organization->id) }}" class="btn btn-warning btn-sm">
@@ -43,8 +43,8 @@
                 </div>
                 @endif
             </div>
-            <div class="card-footer">
-                <a href="{{ route('organizations.index') }}" class="btn btn-secondary">{{ __('common.cancel') }}</a>
+            <div class="card-footer bg-secondary bg-opacity-25 border-top border-dark text-end">
+                <a href="{{ route('organizations.index') }}" class="btn btn-secondary btn-sm">{{ __('common.cancel') }}</a>
             </div>
         </div>
     </div>

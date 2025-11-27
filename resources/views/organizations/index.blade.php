@@ -6,8 +6,8 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card border border-info mt-4">
-            <div class="card-header bg-light border-bottom">
+        <div class="card border border-dark mt-4">
+            <div class="card-header bg-secondary bg-opacity-25 border-bottom border-dark">
                 <h3 class="card-title">{{ __('common.organizations') }}</h3>
                 <div class="card-tools">
                     <a href="{{ route('organizations.create') }}" class="btn btn-primary btn-sm">
@@ -16,8 +16,8 @@
                 </div>
             </div>
             <div class="card-body table-responsive p-3">
-                <table class="table table-hover text-nowrap table-bordered border-info table-sm datatable">
-                    <thead>
+                <table class="table table-hover text-nowrap table-bordered border-secondary table-sm datatable">
+                    <thead class="text-center">
                         <tr>
                             <th>{{ __('common.table_name') }}</th>
                             <th>{{ __('common.table_description') }}</th>
@@ -25,11 +25,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($organizations ?? [] as $org)
+                        @foreach($organizations ?? [] as $org)
                         <tr>
                             <td>{{ $org->name }}</td>
                             <td>{{ Str::limit($org->description ?? 'N/A', 50) }}</td>
-                            <td>
+                            <td class="text-center">
                                 <a href="{{ route('organizations.show', $org->id) }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="{{ __('common.view_details') }}"><i class="fas fa-eye fa-xs"></i></a>
                                 <a href="{{ route('organizations.edit', $org->id) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="{{ __('common.edit_item') }}"><i class="fas fa-edit fa-xs"></i></a>
                                 <form action="{{ route('organizations.destroy', $org->id) }}" method="POST" class="d-inline">
@@ -38,9 +38,7 @@
                                 </form>
                             </td>
                         </tr>
-                        @empty
-                        <tr><td colspan="3" class="text-center">{{ __('common.no_organizations_available') }}</td></tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>

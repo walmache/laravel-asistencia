@@ -1,15 +1,23 @@
-// API Configuration
+/**
+ * App.js - Main application JavaScript
+ * Handles API configuration, authentication, and UI interactions
+ */
+
+// API Configuration - Base URL and token management
 window.API_BASE_URL = window.API_BASE_URL || (document.querySelector('meta[name="api-base-url"]')?.getAttribute('content') || '/api');
 window.API_TOKEN = localStorage.getItem('api_token') || null;
 
-// Axios configuration
+// Axios HTTP client configuration for API requests
 if (typeof axios !== 'undefined') {
-    // Configure axios to send credentials (cookies) with requests
+    // Configure axios to send credentials (cookies) with requests for CSRF protection
     axios.defaults.withCredentials = true;
-    
+
+    // Set authorization header if token exists
     if (window.API_TOKEN) {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + window.API_TOKEN;
     }
+
+    // Set CSRF token for Laravel requests
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
     if (csrfToken) {
         axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
@@ -100,35 +108,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Initialize tooltips for login buttons
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('.login-btn-link'));
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        }
-    });
-
-    // Initialize language dropdown (Bootstrap 5)
-    $('.dropdown-toggle').dropdown();
-
-    // Language switcher functionality
-    $('.lang-switcher').on('click', function(e) {
-        e.preventDefault();
-        const locale = $(this).data('locale');
-
-        // Show loading indicator if needed
-        const $link = $(this);
-        const originalText = $link.text();
-
-        $.ajax({
-            url: '/lang/' + locale,
-            method: 'GET',
-            success: function() {
+    // Language switcher functionality (Bootstrap 5 native)
+    document.querySelectorAll('.lang-switcher').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const locale = this.getAttribute('data-locale');
+            
+            // Navigate to language switch endpoint
+            fetch('/lang/' + locale, {
+                method: 'GET',
+                credentials: 'same-origin'
+            })
+            .then(function() {
                 location.reload();
-            },
-            error: function() {
+            })
+            .catch(function() {
                 alert('Error cambiando idioma. Intente nuevamente.');
-            }
+            });
         });
     });
 });

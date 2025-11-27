@@ -6,13 +6,13 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="card border border-info mt-4">
-            <div class="card-header bg-light border-bottom">
+        <div class="card border border-dark mt-4">
+            <div class="card-header bg-secondary bg-opacity-25 border-bottom border-dark">
                 <h3 class="card-title">Mis Eventos Asignados</h3>
             </div>
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap table-bordered border-info table-sm">
-                    <thead>
+            <div class="card-body table-responsive p-3">
+                <table class="table table-hover text-nowrap table-bordered border-secondary table-sm datatable">
+                    <thead class="text-center">
                         <tr>
                             <th>{{ __('common.events') }}</th>
                             <th>{{ __('common.table_organization') }}</th>
@@ -24,7 +24,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($events ?? [] as $event)
+                        @foreach($events ?? [] as $event)
                             @php $myAttendance = $event->attendances->where('user_id', auth()->id())->first(); @endphp
                         <tr>
                             <td>{{ $event->name }}</td>
@@ -39,15 +39,13 @@
                                     <span class="badge bg-danger">Ausente</span>
                                 @endif
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <a href="{{ route('attendance.show', ['id' => $event->id]) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{ __('common.view_details') }}">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </td>
                         </tr>
-                        @empty
-                        <tr><td colspan="7" class="text-center">No estás asignado a ningún evento</td></tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>
